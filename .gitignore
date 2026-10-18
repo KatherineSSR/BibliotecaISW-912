@@ -1,0 +1,15 @@
+# Dependencias
+node_modules/
+*/node_modules/
+
+# Variables de entorno y credenciales
+.env
+.env.local
+*/.env
+*/.env.local
+src/.env
+
+
+# Subidas temporales
+uploads/
+*/uploads/
