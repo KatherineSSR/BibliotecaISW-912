@@ -30,7 +30,7 @@ Inicia sesión y genera el token de acceso.
       "lastName": "Solis Ramírez",
       "email": "admin.katherine@bibliotecacq.cr",
       "role": "admin",
-      "userCode": "BCQ-ADM01"
+      "userCode": "0001"
     }
   }
   ```
@@ -41,10 +41,10 @@ Inicia sesión y genera el token de acceso.
 
 ---
 
-## 👤 2. Módulo de Registro y Edición de Usuarios (HU-01, HU-02, HU-03)
+## 👤 2. Módulo de Registro y Edición de Usuarios (HU-01, HU-02)
 
-### `POST /api/users` (HU-01 y HU-03: Registrar Usuario)
-Registra un nuevo visitante en el sistema, genera automáticamente su código único alfanumérico y le envía un correo electrónico de bienvenida con su código para hacer check-in.
+### `POST /api/users` (HU-01: Registrar Usuario)
+Registra un nuevo visitante en el sistema y genera automáticamente un código único de cuatro dígitos numéricos (incluidos posibles ceros a la izquierda, por ejemplo `0042`).
 
 * **Request Body:**
   ```json
@@ -75,18 +75,13 @@ Registra un nuevo visitante en el sistema, genera automáticamente su código ú
       "age": 22,
       "address": "Ciudad Quesada, Barrio San Martín",
       "role": "user",
-      "userCode": "BCQ-7K9A2",
+      "userCode": "4821",
       "isActive": true,
       "createdAt": "2026-10-18T23:10:00.000Z"
-    },
-    "emailStatus": {
-      "sent": true,
-      "messageId": "<...>"
     }
   }
   ```
-* **Tip para el Frontend:** Muestra una alerta o modal de confirmación indicando:  
-  * *"¡Usuario registrado! Su código único es **BCQ-7K9A2** y ha sido enviado a su correo electrónico."*
+* **Tip para el Frontend:** Muestra una alerta o modal de confirmación con el código único asignado.
 
 ---
 
@@ -95,7 +90,7 @@ Obtiene todos los usuarios registrados.
 
 * **Parámetros opcionales (Query Params):**
   * `?search=texto`: Filtra en tiempo real por nombre, apellidos, cédula, correo o código único.
-  * *Ejemplo:* `GET /api/users?search=carlos` o `GET /api/users?search=BCQ-7K9A2`
+  * *Ejemplo:* `GET /api/users?search=carlos` o `GET /api/users?search=4821`
 * **Respuesta Exitosa (`200 OK`):**
   ```json
   {
@@ -108,7 +103,7 @@ Obtiene todos los usuarios registrados.
         "lastName": "Alvarado Gómez",
         "cedula": "208760123",
         "email": "carlos.alvarado@correo.com",
-        "userCode": "BCQ-7K9A2",
+        "userCode": "4821",
         "isActive": true
       }
     ]
@@ -148,95 +143,64 @@ Actualiza los datos personales del usuario.
 
 ---
 
-### `POST /api/users/:id/resend-code` (Reenviar Código por Correo)
-Botón de auxilio por si el usuario borró o perdió el correo con su código.
+## 3. Módulo de Cubículos
 
+El sistema registra seis cubículos. Al consultar el módulo por primera vez, los crea como libres sin borrar ni modificar los demás datos de la base. Solo una sesión autenticada de administrador puede consultar o cambiar sus estados.
+
+### `GET /api/cubicles`
+Devuelve el estado individual y los conteos de cubículos ocupados y libres.
+
+* **Headers:** `Authorization: Bearer <token>`
 * **Respuesta Exitosa (`200 OK`):**
   ```json
   {
     "success": true,
-    "message": "Código reenviado a carlos.alvarado@correo.com",
-    "emailStatus": { "sent": true }
-  }
-  ```
-
----
-
-## 3. Módulo de Control de Acceso (HU-04: Check-in)
-
-### `POST /api/access/check-in` (Registrar Ingreso)
-Permite al visitante ingresar su código único al llegar a la biblioteca. El sistema valida su identidad y guarda la fecha y hora exacta de entrada.
-
-* **Request Body:**
-  ```json
-  {
-    "userCode": "BCQ-U7K9A",
-    "notes": "Opcional: motivo o lectura en sala"
-  }
-  ```
-* **Respuesta Exitosa (`201 Created`):**
-  ```json
-  {
-    "success": true,
-    "message": "¡Bienvenido(a) María Elena Quesada Soto! Ingreso registrado correctamente.",
-    "data": {
-      "accessId": "6ad5611e9a224...",
-      "user": {
-        "id": "6ad550f5e70ca06083e4a892",
-        "name": "María Elena",
-        "lastName": "Quesada Soto",
-        "cedula": "207550123",
-        "email": "maria.quesada@ejemplo.com",
-        "role": "user",
-        "userCode": "BCQ-U7K9A"
-      },
-      "entryTime": "2026-10-18T23:15:30.450Z"
-    }
-  }
-  ```
-* **Tip para el Frontend:** 
-  * Puedes mostrar una tarjeta de bienvenida en pantalla con el nombre del visitante y la hora de entrada.
-* **Respuestas de Error:**
-  * `400`: No se envió el código.
-  * `404`: Código de usuario no existe en la base de datos.
-  * `403`: El usuario está inactivo en el sistema.
-
----
-
-### `GET /api/access` (Historial / Bitácora de Accesos)
-Lista todos los ingresos registrados en orden cronológico (los más recientes primero).
-
-* **Parámetros opcionales (Query Params):**
-  * `?limit=50`: Cantidad máxima de registros a traer (por defecto 50).
-  * `?date=YYYY-MM-DD`: Filtrar por una fecha específica (ej: `?date=2026-10-18`).
-* **Respuesta Exitosa (`200 OK`):**
-  ```json
-  {
-    "success": true,
-    "count": 5,
+    "total": 6,
+    "occupied": 2,
+    "free": 4,
     "data": [
-      {
-        "_id": "6ad5611e9a224...",
-        "userCode": "BCQ-U7K9A",
-        "userName": "María Elena Quesada Soto",
-        "entryTime": "2026-10-18T23:15:30.450Z",
-        "notes": "",
-        "user": {
-          "_id": "6ad550f5e70ca06083e4a892",
-          "name": "María Elena",
-          "lastName": "Quesada Soto",
-          "email": "maria.quesada@ejemplo.com",
-          "cedula": "207550123",
-          "role": "user"
-        }
-      }
+      { "number": 1, "status": "occupied" },
+      { "number": 2, "status": "free" }
     ]
   }
   ```
+  *La respuesta incluye los seis cubículos; se abrevia aquí por claridad.*
+
+### `PATCH /api/cubicles/:number`
+Marca un cubículo como ocupado (`occupied`) o libre (`free`).
+
+* **Headers:** `Authorization: Bearer <token>`
+* **Request Body:**
+  ```json
+  { "status": "occupied" }
+  ```
+* **Respuestas de Error:** `400` número o estado inválido; `401` sesión ausente o expirada; `403` sesión sin rol de administrador.
 
 ---
 
-##  4. Cuentas de Prueba Pre-cargadas (Seed)
+## 4. Sala Informática
+
+Las rutas requieren un token de administrador. La sala cuenta con 14 computadoras; una persona y una computadora no pueden tener más de una sesión activa simultáneamente.
+
+### `GET /api/computer-lab`
+Devuelve estado de los puestos y las sesiones recientes.
+
+### `POST /api/computer-lab/sessions`
+Inicia el uso de un puesto libre para un visitante activo.
+
+```json
+{
+  "workstationNumber": 1,
+  "userCode": "1001"
+}
+```
+
+### `PATCH /api/computer-lab/sessions/:id/finish`
+Finaliza la sesión y deja libre la computadora.
+
+---
+
+## 5. Cuentas de Prueba Pre-cargadas (Seed)
 
 Para probar inmediatamente sin tener que inventar datos:
 
@@ -246,7 +210,9 @@ Para probar inmediatamente sin tener que inventar datos:
 * `admin.karol@bibliotecacq.cr`
 * `admin.rudy@bibliotecacq.cr`
 
-### Códigos de Visitantes listos para probar Check-in:
-* `BCQ-U7K9A` (María Elena Quesada Soto)
-* `BCQ-U3X8P` (Juan Diego Murillo Vargas)
-* `BCQ-U5M2L` (Sofía Hernández Castro)
+Los códigos de los usuarios ya registrados se pueden actualizar ejecutando `npm run migrate:user-codes` desde `Backend`. La migración asigna códigos únicos de cuatro dígitos y actualiza los códigos guardados en el historial de Sala Informática. No ejecutes el seed para aplicar este cambio, porque el seed reinicia los usuarios.
+
+### Códigos de Visitantes listos para probar Sala Informática:
+* `1001` (María Elena Quesada Soto)
+* `1002` (Juan Diego Murillo Vargas)
+* `1003` (Sofía Hernández Castro)

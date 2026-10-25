@@ -1,6 +1,7 @@
 # Dependencias
 node_modules/
 */node_modules/
+dist/
 
 # Variables de entorno y credenciales
 .env
@@ -13,3 +14,4 @@ src/.env
 # Subidas temporales
 uploads/
 */uploads/
+

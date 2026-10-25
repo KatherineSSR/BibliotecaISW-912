@@ -1,43 +1,28 @@
 const crypto = require('crypto');
 const User = require('../models/User');
 
-/**
- * Genera un código único alfanumérico para el usuario.
- * Formato: BCQ-XXXXX 
- */
-const generateUserCode = () => {
-    const chars = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
-    let code = '';
-    const bytes = crypto.randomBytes(5);
-    for (let i = 0; i < 5; i++) {
-        code += chars[bytes[i] % chars.length];
-    }
-    return `BCQ-${code}`;
-};
+const CODE_SPACE_SIZE = 10_000;
+
+const generateUserCode = () => crypto.randomInt(CODE_SPACE_SIZE).toString().padStart(4, '0');
 
 /**
- * Genera un código garantizando que no exista en la base de datos.
+ * Generates a unique four-digit code, preserving leading zeroes.
  */
 const getUniqueUserCode = async () => {
-    let code = '';
-    let exists = true;
-    let attempts = 0;
-
-    while (exists && attempts < 10) {
-        code = generateUserCode();
-        const found = await User.findOne({ userCode: code });
-        if (!found) {
-            exists = false;
-        }
-        attempts++;
+    const existingCodes = new Set(
+        (await User.distinct('userCode')).filter(code => /^\d{4}$/.test(code))
+    );
+    if (existingCodes.size >= CODE_SPACE_SIZE) {
+        throw new Error('No quedan códigos de usuario de cuatro dígitos disponibles.');
     }
 
-    if (exists) {
-        // En caso de colisiones, agregar timestamp
-        code = `BCQ-${Date.now().toString().slice(-6)}`;
+    const start = crypto.randomInt(CODE_SPACE_SIZE);
+    for (let offset = 0; offset < CODE_SPACE_SIZE; offset++) {
+        const code = ((start + offset) % CODE_SPACE_SIZE).toString().padStart(4, '0');
+        if (!existingCodes.has(code)) return code;
     }
 
-    return code;
+    throw new Error('No quedan códigos de usuario de cuatro dígitos disponibles.');
 };
 
 module.exports = {

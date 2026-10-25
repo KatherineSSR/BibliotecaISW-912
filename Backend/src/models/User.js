@@ -50,7 +50,8 @@ const UserSchema = new mongoose.Schema({
         type: String,
         unique: true,
         sparse: true,
-        trim: true
+        trim: true,
+        match: /^\d{4}$/
     },
 
     role: {
@@ -76,4 +77,3 @@ UserSchema.statics.createUser = function (data) {
 };
 
 module.exports = mongoose.model('User', UserSchema);
-

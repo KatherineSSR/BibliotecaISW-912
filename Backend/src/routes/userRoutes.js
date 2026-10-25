@@ -4,8 +4,7 @@ const {
     registerUser,
     updateUser,
     getUsers,
-    getUserById,
-    resendUserCode
+    getUserById
 } = require('../controllers/userController');
 
 // Registrar usuario
@@ -16,7 +15,5 @@ router.get('/', getUsers);
 router.get('/:id', getUserById);
 // Modificar usuario
 router.put('/:id', updateUser);
-// Reenviar codigo de usuario por email
-router.post('/:id/resend-code', resendUserCode);
 
 module.exports = router;

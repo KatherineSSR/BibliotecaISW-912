@@ -1,7 +1,6 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const { getUniqueUserCode } = require('../utils/codeGenerator');
-const { sendUserCodeEmail } = require('../services/emailService');
 
 /**
  * HU-01: Registrar un usuario y generar código único automáticamente
@@ -44,7 +43,7 @@ const registerUser = async (req, res) => {
             });
         }
 
-        // Generar código único alfanumérico
+        // Generar un código único de cuatro dígitos numéricos
         const userCode = await getUniqueUserCode();
 
         // Encriptar contraseña si se proporcionó (ej: al registrar administradores)
@@ -70,21 +69,13 @@ const registerUser = async (req, res) => {
 
         await newUser.save();
 
-        // HU-03: Despachar correo electrónico con el código
-        const emailResult = await sendUserCodeEmail({
-            to: newUser.email,
-            name: `${newUser.name} ${newUser.lastName}`,
-            userCode: newUser.userCode
-        });
-
         const userObj = newUser.toObject();
         delete userObj.password;
 
         return res.status(201).json({
             success: true,
             message: 'Usuario registrado exitosamente.',
-            data: userObj,
-            emailStatus: emailResult
+            data: userObj
         });
     } catch (error) {
         console.error('Error al registrar usuario:', error);
@@ -228,45 +219,9 @@ const getUserById = async (req, res) => {
     }
 };
 
-/**
- * Reenviar código por correo
- */
-const resendUserCode = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const user = await User.findById(id);
-
-        if (!user) {
-            return res.status(404).json({
-                success: false,
-                message: 'Usuario no encontrado.'
-            });
-        }
-
-        const emailResult = await sendUserCodeEmail({
-            to: user.email,
-            name: `${user.name} ${user.lastName}`,
-            userCode: user.userCode
-        });
-
-        return res.status(200).json({
-            success: true,
-            message: `Código reenviado a ${user.email}`,
-            emailStatus: emailResult
-        });
-    } catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: 'Error al reenviar código.',
-            error: error.message
-        });
-    }
-};
-
 module.exports = {
     registerUser,
     updateUser,
     getUsers,
-    getUserById,
-    resendUserCode
+    getUserById
 };

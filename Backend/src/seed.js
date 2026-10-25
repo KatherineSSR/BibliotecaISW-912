@@ -2,7 +2,6 @@ require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const connectDB = require('./config/db');
 const User = require('./models/User');
-const Access = require('./models/Access');
 
 const seedData = async () => {
     try {
@@ -25,7 +24,7 @@ const seedData = async () => {
                 address: 'Ciudad Quesada, San Carlos',
                 role: 'admin',
                 password: hashedAdminPassword,
-                userCode: 'BCQ-ADM01',
+                userCode: '0001',
                 isActive: true
             },
             {
@@ -38,7 +37,7 @@ const seedData = async () => {
                 address: 'Ciudad Quesada, San Carlos',
                 role: 'admin',
                 password: hashedAdminPassword,
-                userCode: 'BCQ-ADM02',
+                userCode: '0002',
                 isActive: true
             },
             {
@@ -51,7 +50,7 @@ const seedData = async () => {
                 address: 'Ciudad Quesada, Centro',
                 role: 'admin',
                 password: hashedAdminPassword,
-                userCode: 'BCQ-ADM03',
+                userCode: '0003',
                 isActive: true
             }
         ];
@@ -68,7 +67,7 @@ const seedData = async () => {
                 address: 'Ciudad Quesada, Barrio San Roque',
                 role: 'user',
                 password: '',
-                userCode: 'BCQ-U7K9A',
+                userCode: '1001',
                 isActive: true
             },
             {
@@ -81,7 +80,7 @@ const seedData = async () => {
                 address: 'Ciudad Quesada, Urbanización La Abundancia',
                 role: 'user',
                 password: '',
-                userCode: 'BCQ-U3X8P',
+                userCode: '1002',
                 isActive: true
             },
             {
@@ -94,7 +93,7 @@ const seedData = async () => {
                 address: 'Ciudad Quesada, Cedral',
                 role: 'user',
                 password: '',
-                userCode: 'BCQ-U5M2L',
+                userCode: '1003',
                 isActive: true
             }
         ];
@@ -103,7 +102,6 @@ const seedData = async () => {
 
         // Borrar todo de la base de datos para reiniciar limpia
         await User.deleteMany({});
-        await Access.deleteMany({});
 
         // Insertar los 6 registros
         await User.insertMany(allUsers);

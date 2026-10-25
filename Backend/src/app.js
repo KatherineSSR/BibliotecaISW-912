@@ -16,7 +16,8 @@ app.use(cors(corsOptions));
 // Rutas
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
-app.use('/api/access', require('./routes/accessRoutes'));
+app.use('/api/cubicles', require('./routes/cubicleRoutes'));
+app.use('/api/computer-lab', require('./routes/computerLabRoutes'));
 
 
 module.exports = app;
