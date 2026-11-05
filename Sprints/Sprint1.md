@@ -194,34 +194,63 @@ Antes de marcar un ítem como completado y moverlo a la columna **Done**, el equ
 
 Si algún ítem falla en al menos un punto, permanece en estado **Doing** / **Testing** hasta ser corregido.
 
+# Matriz de Estimación
+ 
+* **Escala:** Fibonacci (1, 2, 3, 5, 8, 13). Los puntos miden tamaño relativo, no horas.
+* **Historia de referencia (3 puntos):** HU-02 Edición de usuarios.
+* **Velocidad inicial:** 22 puntos por Sprint (rango supuesto: mínima 18, máxima 28), basada en la capacidad del equipo con trabajo en paralelo por módulos. Tras cada Sprint se reemplaza por la velocidad real y se revisa en la Retrospectiva.
+| ID | Historia | Épica | Puntos | Prioridad | Dependencias |
+| :--- | :--- | :--- | :---: | :---: | :--- |
+| TEC-00 | Preparación técnica (TEC-01 a TEC-04: repositorio, ambiente, base de datos, diseño base) | Técnica | 3 | Alta | - |
+| HU-01 | Registro de usuarios con código único | Registro | 5 | Alta | TEC-00 |
+| HU-02 | Edición de usuarios (**referencia**) | Registro | 3 | Alta | HU-01 |
+| HU-03 | Código de usuario por correo | Registro | 5 | Alta | HU-01 |
+| HU-04 | Control de acceso mediante código (check-in) | Acceso | 3 | Alta | HU-01 |
+| HU-05 | Catálogo de libros | Libros | 5 | Media | TEC-00 |
+| HU-06 | Préstamo y devolución de libros | Libros | 5 | Alta | HU-01, HU-05 |
+| HU-07 | Lista de espera de 24 horas | Libros | 8 | Media | HU-06 |
+| HU-08 | Préstamo de cubículos | Cubículos | 5 | Alta | HU-01 |
+| HU-09 | Control de tiempo por turno | Cubículos | 5 | Media | HU-08 |
+| HU-10 | Dashboard de consulta | Dashboard | 8 | Media | HU-04, HU-06, HU-08 |
+| HU-11 | Reportes semanal, quincenal y mensual | Dashboard | 5 | Media | HU-10 |
+| TEC-05 | Despliegue final | Técnica | 3 | Alta | Todas |
+| | **Total** | | **63** | | |
+ 
+**Por épica:** Registro 13 · Acceso 3 · Libros 18 · Cubículos 10 · Dashboard 13 · Técnica 6.
+ 
+**Historias para dividir:** ninguna pasa de 8. Si HU-07 o HU-10 generan desacuerdo en el planning poker, se dividen.
+ 
+**Supuestos y riesgos:**
+1. No hay historial de velocidad; todo se estima por comparación con HU-02.
+2. Somos dos personas: una ausencia reduce mucho la capacidad.
+3. El correo saliente (HU-03) es la mayor incertidumbre.
+4. Las reglas de las 24 horas y de los turnos se validan con el cliente.
 ---
+ 
+# Cronograma de Entregas (Release Plan)
+ 
+* **Duración del Sprint:** 1 semana (el Sprint 1 cierra el 08/11 con dos Incrementos). **Inicio del Sprint 1:** 12/10/2026. **Cierre del proyecto:** 04/12/2026 *(ajustar)*.
+* **Sprints necesarios:** 63 ÷ 22 = 2,9 → **3 Sprints** esperados. Con velocidad máxima (28): 63 ÷ 28 = 2,3 → 3. Con la mínima (18): 63 ÷ 18 = 3,5 → 4. **Rango: 3 a 4 Sprints.**
+| Sprint | Fechas | Incremento | Historias | Puntos |
+| :---: | :--- | :--- | :--- | :---: |
+| 1 | 12/10 – 08/11 | Módulo de usuarios: registro, edición, código por correo y control de acceso (Incrementos 1.1 y 1.2) | TEC-00, HU-01 a HU-04 | 19 |
+| 2 | 09/11 – 15/11 | Módulos completos de préstamo de libros y de cubículos | HU-05 a HU-09 | 28 |
+| 3 | 16/11 – 22/11 | Dashboard, reportes y despliegue | HU-10, HU-11, TEC-05 | 16 |
+| 4 (reserva) | 23/11 – 29/11 | Solo si el Sprint 2 no se completa o la velocidad es la mínima | Pendientes | - |
+ 
+* **Incrementos del Sprint 1:**
+  1. **Incremento 1.1 (18/10/2026):** backend del módulo de usuarios (registro, edición y control de acceso), con guía para el frontend.
+  2. **Incremento 1.2 (08/11/2026, estimado):** frontend del módulo de usuarios (registro, edición y check-in), correo con el código (HU-03) y pruebas. Aquí se cumple el DoD completo.
+* **Orden de trabajo del Sprint 2** (por dependencias, en paralelo):
+  1. **Incremento 2.1, préstamo de libros (Katherine):** HU-05 catálogo (hasta 11/11) → HU-06 préstamo y devolución (hasta 13/11) → HU-07 lista de espera de 24 horas (hasta 15/11).
+  2. **Incremento 2.2, préstamo de cubículos (Karol):** HU-08 préstamo (hasta 12/11) → HU-09 control de tiempo por turno (hasta 15/11).
+* **Margen:** el release esperado termina el 22/11 y el peor caso el 29/11, con la semana del 30/11 al 04/12 libre para la documentación final y la entrega.
+* **Hitos:** demo con el Product Owner al final de cada Sprint; aviso a soporte técnico al iniciar el Sprint 2; despliegue al final del Sprint 3.
+* **Costo:** 30 horas-persona por Sprint *(2 personas × 15 h, ajustar)*. Release esperado: 90 horas; rango: 90 a 120 horas.
 
-## 5. Tablero de seguimiento (Workflow y Daily Scrum)
-
-Se utilizará un tablero ágil estructurado en 3 estados principales:
-
-* **To Do (Pendiente):** Tareas priorizadas para el Sprint que aún no han iniciado.
-* **Doing (En Proceso):** Tareas en desarrollo activo (máximo dos tareas simultáneas por integrante para evitar dispersión).
-* **Done (Terminado):** Tareas completadas que superaron el 100% de la Definition of Done.
-
-### Mecanismo de seguimiento diario (Daily Scrum):
-Para darle seguimiento continuo al Sprint, el equipo sostendrá una reunión diaria corta (10 a 15 minutos) respondiendo tres preguntas clave:
-1. ¿Qué actividades completé desde la última sesión?
-2. ¿Qué actividades abordaré el día de hoy?
-3. ¿Identifiqué algún impedimento técnico o de requerimientos que afecte el avance?
-
----
-
-## 6. Fechas de inicio y cierre del Sprint
-* **Duración:** 2 semanas.
-* **Fecha de Inicio:** 14 de octubre de 2026.
-* **Fecha de Cierre (Sprint Review y Retrospectiva):** 28 de octubre de 2026.
-
----
-
-## Historial de cambios del expediente
-
-| Versión | Fecha | Descripción del cambio | Autoras |
-| :---: | :---: | :--- | :--- |
-| **1.0** | 14/10/2026 | Se formaliza el Documento de Definition of Done (DoD) y el Sprint Backlog 1 con asignación detallada de tareas para el registro de usuarios y control de acceso. | Karol Miranda Mora<br>Katherine Solis Ramírez |
-
+* **Seguimiento (burndown del release):**
+| Corte | Inicio | S1 | S2 | S3 |
+| :--- | :---: | :---: | :---: | :---: |
+| Pendientes (ideal) | 63 | 44 | 16 | 0 |
+| Pendientes (real) | 63 | | | |
+ 
