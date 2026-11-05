@@ -253,4 +253,59 @@ Si algún ítem falla en al menos un punto, permanece en estado **Doing** / **Te
 | :--- | :---: | :---: | :---: | :---: |
 | Pendientes (ideal) | 63 | 44 | 16 | 0 |
 | Pendientes (real) | 63 | | | |
+
+# Plan de Comunicaciones
+ 
+| Interesado | Poder | Interés | Qué necesita | Frecuencia / evento | Canal | Responsable |
+| :--- | :---: | :---: | :--- | :--- | :--- | :--- |
+| Prof. Rudy Barboza (docente y Product Owner) | Alto | Alto | Avance, decisiones de alcance, impedimentos | Cada Sprint (Revisión) y en clase | Clase y correo institucional | Katherine |
+| Bibliotecario/a (cliente del caso) | Alto | Alto | Demo de flujos y validación de reglas | Final de cada Sprint | Demo y correo | Karol |
+| Administración municipal | Alto | Bajo | Resumen de una página del avance | Cierre de Sprint 2 y despliegue | Correo | Karol |
+| Soporte técnico | Alto | Bajo | Requisitos de despliegue y correo saliente | Inicio del Sprint 2 y ante cambios | Correo | Katherine |
+| Personal de apoyo | Bajo | Alto | Cómo usar check-in y préstamos | Final de Sprints 2 y 3 | Presencial | Karol |
+| Usuarios de la biblioteca | Bajo | Alto | Su código y cómo usarlo | Al registrarse y al activar el ingreso | Correo automático y aviso impreso | Katherine |
+ 
+**Comunicación interna:** planificación al inicio del Sprint (30 min), reunión diaria de máximo 15 minutos por mensajería, Revisión con el Product Owner al final, Retrospectiva solo del equipo y Pull Requests en GitHub.
+ 
+**Reglas del equipo:**
+1. Respuesta en máximo 24 horas hábiles; si es urgente, se llama.
+2. Las decisiones se anotan en el tablero o en el Expediente, no solo en el chat.
+3. Los cambios de alcance se consultan primero con el Product Owner.
+4. Los bloqueos se avisan el mismo día.
+---
+ 
+# Tablero de Trabajo
+ 
+**Reparto del trabajo por módulo:**
+ 
+| Módulo | Historias | Responsable |
+| :--- | :--- | :--- |
+| Usuarios y acceso (registro, edición, correo, check-in) | HU-01 a HU-04 | Backend: Katherine · Frontend: Karol |
+| Préstamo de libros | HU-05, HU-06, HU-07 | Katherine (completo) |
+| Préstamo de cubículos | HU-08, HU-09 | Karol (completo) |
+| Dashboard y reportes | HU-10, HU-11 | Ambas, mitad y mitad |
+ 
+Cada Pull Request lo revisa la otra integrante.
+ 
+* **Herramienta:** Trello. **Enlace:** [Tablero de trabajo](https://trello.com/b/6aebddcac8243401d84573a9)
+| Columna | Significado | WIP máx. |
+| :--- | :--- | :---: |
+| Por hacer | Historias del Sprint Backlog 1 en orden de prioridad | - |
+| En progreso | Se está programando o diseñando | 2 |
+| En revisión | Pull Request esperando a la compañera | 2 |
+| En pruebas | Pruebas en el ambiente de pruebas (computadora y móvil) | 2 |
+| Hecho | Cumple el DoD | - |
+ 
+**Justificación del WIP:** una historia por integrante en progreso, para terminar más y empezar menos.
+ 
+**Regla para pasar a "Hecho"** (DoD 1.0): Pull Request aprobado por la compañera, pruebas superadas, persistencia verificada en la base de datos, funciona en computadora y móvil, y visto bueno del Product Owner.
+ 
+| ID | Historia | Puntos | Responsable | Columna |
+| :--- | :--- | :---: | :--- | :--- |
+| TEC-00 | Preparación técnica | 3 | Karol y Katherine | Hecho |
+| HU-01 | Registro con código único | 5 | Backend: Katherine · Frontend: Karol | En progreso |
+| HU-02 | Edición de usuarios | 3 | Backend: Katherine · Frontend: Karol | En revisión |
+| HU-03 | Código por correo | 5 | Backend: Katherine · Plantilla: Karol | En progreso |
+| HU-04 | Control de acceso (check-in) | 3 | Backend: Katherine · Frontend: Karol | En progreso |
+ 
  
