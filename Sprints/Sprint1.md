@@ -442,3 +442,109 @@ Cada Pull Request lo revisa la otra integrante.
 | HU-02 | Edición de usuarios | 3 | Backend: Katherine · Frontend: Karol | En revisión |
 | HU-03 | Código por correo | 5 | Backend: Katherine · Plantilla: Karol | En progreso |
 | HU-04 | Control de acceso (check-in) | 3 | Backend: Katherine · Frontend: Karol | En progreso |
+
+
+# Acta de Sprint Review y Cierre
+
+## 1. Fecha, duración y asistentes
+
+- **Fecha:** 08/11/2026
+- **Duración:** 1 hora (máximo permitido para este Sprint: 4 horas)
+- **Product Owner:** Prof. Rudy Barboza Rodríguez
+- **Scrum Master:** Karol Miranda Mora
+- **Developers:** Karol Miranda Mora (frontend) y Katherine Solis Ramírez (backend)
+- **Interesados clave presentes:** representante de la biblioteca (bibliotecario), rol simulado en esta sesión.
+
+## 2. Sprint Goal y si se cumplió
+
+- **Sprint Goal:** construir y desplegar el núcleo de registro de usuarios y el control de acceso inicial mediante código único generado y enviado por correo, para identificar a los visitantes y registrar su ingreso a la biblioteca.
+- **Resultado:** **cumplido.** Las cuatro historias del Sprint funcionan de principio a fin en el ambiente de pruebas.
+- **Entregas del Sprint:**
+  1. **Incremento 1.1 (18/10/2026):** backend del módulo de usuarios (registro, edición y control de acceso), con guía para el frontend.
+  2. **Incremento 1.2 (08/11/2026):** frontend del módulo, correo con el código y pruebas. Con este incremento se cumple la Definition of Done (DoD) completa.
+
+## 3. Historias mostradas y cuáles cumplen la DoD
+
+Se mostró el producto funcionando en el ambiente de pruebas, tanto en computadora como en vista móvil. No se presentó código.
+
+- **TEC-00, Preparación técnica (3 puntos):** repositorio, ambiente, base de datos y diseño base. **Cumple la DoD.**
+- **HU-01, Registro de usuarios con código único (5 puntos):** se registró un usuario de ejemplo y el sistema generó su código automáticamente. **Cumple la DoD.**
+- **HU-02, Edición de usuarios (3 puntos):** se editaron datos de un usuario y el código único se mantuvo igual. **Cumple la DoD.**
+- **HU-03, Código de usuario por correo (5 puntos):** el correo con el código llegó a una cuenta real. **Cumple la DoD.**
+- **HU-04, Control de acceso con código (3 puntos):** se digitó un código válido y el sistema mostró el nombre y tipo de usuario, y guardó fecha y hora. También se probó un código no registrado y el sistema mostró un aviso. **Cumple la DoD.**
+
+**Puntos terminados:** 19 de 19 planificados.
+
+## 4. Retroalimentación recibida de los interesados
+
+Retroalimentación de la sesión simulada:
+
+1. El Product Owner aceptó las cuatro historias y el Incremento del Sprint.
+2. El representante de la biblioteca pidió poder buscar a un usuario por número de cédula, además del nombre, porque es el dato que más rápido se tiene a mano en el mostrador.
+3. Pidió que el asunto del correo diga claramente el nombre de la Biblioteca Pública de Ciudad Quesada, para que no se confunda con correo no deseado.
+4. Confirmó que el siguiente paso más importante es el préstamo de libros y cubículos.
+
+## 5. Cambios al Product Backlog acordados
+
+- **Nuevo ajuste a HU-02:** agregar búsqueda de usuarios por cédula. Se estima en el Sprint Planning del Sprint 2.
+- **Ajuste a HU-03:** cambiar el asunto de la plantilla del correo para incluir el nombre de la biblioteca (cambio pequeño, entra al Sprint 2).
+- **Prioridades:** se mantienen. Siguen primero los módulos de libros (HU-05 a HU-07) y cubículos (HU-08 y HU-09).
+
+## 6. Estado del release: avance frente al Cronograma de Entregas
+
+- **Avance:** 19 de 63 puntos terminados (30 %). Quedan 44 puntos, igual a lo previsto en el seguimiento ideal del Sprint 1.
+- **Próximo Sprint (Sprint 2):** libros y cubículos completos (HU-05 a HU-09, 28 puntos).
+- **Cierre del proyecto:** sin cambios en la fecha (04/12/2026).
+- **Hito siguiente:** avisar a soporte técnico al iniciar el Sprint 2 y hacer la demo con el Product Owner al cierre.
+
+---
+
+## Parte 2. Acta de Sprint Retrospective
+
+### 1. Formato usado
+
+**Start / Stop / Continue** (qué empezar, qué dejar y qué seguir haciendo). Participó el equipo Scrum: Product Owner, Scrum Master y Developers. Duración: 45 minutos (máximo permitido: 3 horas). Regla de la sesión: se habla del proceso, no de personas.
+
+### 2. Qué funcionó bien y qué no, con evidencia
+
+**Continue (seguir haciendo):**
+
+- **Entregar el backend temprano con una guía para el frontend.** Evidencia: el Incremento 1.1 se entregó el 18/10 y Karol pudo avanzar con las pantallas sin esperar al final.
+- **Dividir el trabajo en tareas con responsable.** Evidencia: el Sprint Backlog 1 asignó cada tarea a una persona y las 19 puntos se terminaron.
+
+**Stop (dejar de hacer):**
+
+- **Planear los Sprints con una velocidad supuesta, sin datos reales.** Evidencia: la velocidad inicial se estimó en 22 puntos por Sprint, y el Sprint 1 cerró con 19 puntos terminados.
+- **Considerar un incremento parcial como entregable.** Evidencia: el Incremento 1.1 (solo backend) no cumplía la DoD por sí solo, porque no había pantallas, correo ni pruebas completas.
+
+**Start (empezar a hacer):**
+
+- **Aprobar la DoD y los criterios de aceptación antes de empezar cada Sprint.** Evidencia: el Sprint inició el 12/10 y la DoD se aprobó el 14/10.
+- **Probar el envío de correos desde el inicio del Sprint en que se usen.** Evidencia: el correo saliente (HU-03) estaba señalado desde la Matriz de Estimación como la mayor incertidumbre técnica.
+
+### 3. Seguimiento de las acciones del Sprint anterior
+
+No aplica: es el primer Sprint del proyecto.
+
+### 4. Acciones de mejora (máximo 3, con dueño y fecha)
+
+1. **Ajustar el alcance del Sprint 2 con la velocidad real.**
+   - **Acción:** recalcular la velocidad con los 19 puntos del Sprint 1 y revisar que las historias del Sprint 2 quepan en esa capacidad.
+   - **Dueño:** Karol Miranda (Scrum Master).
+   - **Fecha:** 13/11/2026.
+   - **Cómo se verifica:** el Cronograma de Entregas muestra la velocidad real y la fila "real" del seguimiento (burndown) del Sprint 1 completa, con su commit.
+2. **Entregar historias completas, no por capas.**
+   - **Acción:** una historia solo se muestra en la Review y se cuenta como terminada si funciona de principio a fin (backend, pantalla y pruebas), según la DoD.
+   - **Dueño:** Katherine Solis y Karol Miranda (Developers), cada una en el módulo que le toca.
+   - **Fecha:** desde el Sprint 2 (cierre el 15/11/2026).
+   - **Cómo se verifica:** en el Acta del Sprint 2, cada historia mostrada aparece con "cumple / no cumple la DoD".
+3. **Aprobar la DoD y los criterios de aceptación antes de iniciar el Sprint.**
+   - **Acción:** en cada Sprint Planning se confirma con el Product Owner la versión vigente de la DoD y los criterios de aceptación de cada historia, antes de empezar a trabajar.
+   - **Dueño:** Karol Miranda (Scrum Master), con la confirmación del Product Owner.
+   - **Fecha:** Sprint Planning del Sprint 2 y de los siguientes.
+   - **Cómo se verifica:** el Sprint Backlog de cada Sprint indica la versión de la DoD y la fecha de confirmación, anterior al inicio del Sprint.
+
+### 5. Acciones incorporadas al Sprint Backlog siguiente
+
+Las tres acciones entran al Sprint Backlog 2 como tareas con responsable y fecha. Se revisan en la Retrospective del Sprint 2.
+
