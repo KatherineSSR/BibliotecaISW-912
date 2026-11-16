@@ -226,7 +226,142 @@ Si algún ítem falla en al menos un punto, permanece en estado **Doing** / **Te
 3. El correo saliente (HU-03) es la mayor incertidumbre.
 4. Las reglas de las 24 horas y de los turnos se validan con el cliente.
 ---
+
+## Matriz de Riesgos (Registro de Riesgos)
  
+| ID | Descripción (si ocurre X, entonces Y) | Categoría | Tipo | P | I | Puntaje | Prioridad | Dueño |
+| :-- | :-- | :-- | :-- | :-: | :-: | :-: | :-- | :-- |
+| R-01 | Si una de las dos integrantes se ausenta o se satura con otros cursos, entonces la capacidad del equipo baja a la mitad y el módulo que solo ella conoce se detiene. | Equipo | Amenaza | 3 | 3 | 9 | **Alta prioridad** | Karol |
+| R-02 | Si el correo saliente no llega o cae en spam, entonces el usuario no recibe su código (HU-03) y no puede hacer el check-in. | Tercero | Amenaza | 3 | 2 | 6 | **Alta prioridad** | Katherine |
+| R-03 | Si el bibliotecario cambia o no confirma las reglas de la lista de espera de 24 horas y los turnos de cubículos, entonces HU-07 y HU-09 se rehacen. | Alcance | Amenaza | 3 | 2 | 6 | **Alta prioridad** | Karol |
+| R-04 | Si el Sprint 2 (28 puntos, la velocidad máxima supuesta) no se completa, entonces el Dashboard se atrasa y se consume la reserva del Sprint 4. | Alcance | Amenaza | 3 | 2 | 6 | **Alta prioridad** | Katherine |
+| R-05 | Si soporte técnico no tiene listo el ambiente o no responde a tiempo, entonces el despliegue final (TEC-05) se atrasa. | Tercero | Amenaza | 2 | 3 | 6 | **Alta prioridad** | Katherine |
+| R-06 | Si los datos personales (cédula, edad, dirección) se exponen o se guardan sin protección, entonces hay un problema legal y se pierde la confianza de los usuarios. | Negocio | Amenaza | 1 | 3 | 3 | Vigilar | Katherine |
+| R-07 | Si el personal de apoyo sigue usando el libro de papel o los usuarios olvidan su código, entonces los datos del sistema quedan incompletos y los reportes pierden valor. | Negocio | Amenaza | 2 | 2 | 4 | Vigilar | Karol |
+| R-08 | Si la biblioteca tiene internet inestable, entonces el check-in y los préstamos fallan en el momento de atención. | Técnico | Amenaza | 2 | 2 | 4 | Vigilar | Karol |
+| R-09 | Si los reportes se presentan a la administración municipal a tiempo, entonces puede apoyar el presupuesto y el horario de la biblioteca. | Negocio | **Oportunidad** | 2 | 2 | 4 | Vigilar | Karol |
+| R-10 | Si un cambio en el modelo de datos (por ejemplo, para préstamos) rompe lo ya hecho en usuarios y acceso, entonces se pierde tiempo corrigiendo. | Técnico | Amenaza | 1 | 2 | 2 | Aceptar | Katherine |
+ 
+---
+ 
+## 3. Mapa de calor
+ 
+| | Impacto bajo (1) | Impacto medio (2) | Impacto alto (3) |
+| :-- | :--: | :--: | :--: |
+| **Prob. alta (3)** | Vigilar<br>— | **Alta prioridad**<br>R-02 · R-03 · R-04 | **Alta prioridad**<br>R-01 |
+| **Prob. media (2)** | Aceptar<br>— | Vigilar<br>R-07 · R-08 · R-09 (oportunidad) | **Alta prioridad**<br>R-05 |
+| **Prob. baja (1)** | Aceptar<br>— | Aceptar<br>R-10 | Vigilar<br>R-06 |
+ 
+# Plan de Mitigación
+ 
+## Riesgos de alta prioridad (zona roja)
+ 
+### R-01 · Ausencia o saturación de una integrante (dueño: Karol)
+ 
+* **Estrategia:** mitigar.
+* **Acciones:** traspaso de 30 min de cada módulo a la otra integrante (MIT-01 libros, MIT-02 cubículos) y 20 % de holgura al planificar.
+* **Disparador:** no responde en 24 h hábiles, o una historia pasa más de 3 días en "En progreso" sin avance.
+* **Contingencia / respaldo:** la otra toma solo historias de prioridad Alta; si la ausencia pasa de una semana, se reduce el alcance con el Product Owner.
+* **Revisión y riesgo residual:** Planning Sprint 3 (16/11) · medio.
+### R-02 · Falla del correo saliente (dueña: Katherine)
+ 
+* **Estrategia:** mitigar.
+* **Acciones:** prueba corta de 1 día con 3 cuentas reales (MIT-03) e interfaz propia `EnvioCorreo` para cambiar de proveedor (MIT-04).
+* **Disparador:** el correo no llega o cae en spam en 2 de 3 cuentas, o se alcanza el límite de envíos.
+* **Contingencia / respaldo:** usar el correo de la municipalidad; si no, imprimir el código en un comprobante.
+* **Revisión y riesgo residual:** al terminar la prueba · bajo.
+### R-03 · Reglas de 24 horas y turnos sin validar (dueño: Karol)
+ 
+* **Estrategia:** mitigar.
+* **Acciones:** confirmar las reglas por escrito con el bibliotecario y anotarlas en los criterios de aceptación de HU-07 y HU-09 (MIT-05).
+* **Disparador:** el bibliotecario no confirma antes de iniciar la historia o pide cambios en la demo.
+* **Contingencia / respaldo:** construir primero una versión mínima con valores configurables; si no, pasar la historia al Sprint 4.
+* **Revisión y riesgo residual:** antes del Planning del Sprint 3 · bajo.
+### R-04 · Sprint 2 sobrecargado (dueña: Katherine)
+ 
+* **Estrategia:** evitar.
+* **Acciones:** planificar con 22 puntos, no 28, y mover HU-07 o HU-09 al Sprint 3 (MIT-06).
+* **Disparador:** a mitad de Sprint los puntos pendientes reales superan los ideales del burndown.
+* **Contingencia / respaldo:** usar el Sprint 4 de reserva; si no alcanza, recortar el alcance de reportes.
+* **Revisión y riesgo residual:** cada corte del burndown · medio.
+### R-05 · Soporte técnico no listo para el despliegue (dueña: Katherine)
+ 
+* **Estrategia:** mitigar.
+* **Acciones:** enviar requisitos y fecha por correo y pedir un despliegue de prueba antes del cierre (MIT-07).
+* **Disparador:** sin respuesta en 3 días hábiles, o sin acceso al servidor al iniciar el Sprint 3.
+* **Contingencia / respaldo:** escalar con el Product Owner; si no hay servidor, instalar en una computadora de la biblioteca.
+* **Revisión y riesgo residual:** inicio del Sprint 3 y 30/11 · medio.
+---
+ 
+## Riesgos a vigilar (zona amarilla)
+ 
+### R-06 · Datos personales expuestos (dueña: Katherine)
+ 
+* **Estrategia:** mitigar.
+* **Acciones:** pedir solo los datos necesarios, mostrar la cédula parcialmente, acceso por rol y conexión segura (MIT-08). Confirmar con el Product Owner si aplica la Ley 8968.
+* **Disparador:** un usuario reclama por sus datos o se ve información sensible sin permiso.
+* **Contingencia / respaldo:** quitar el acceso afectado de inmediato y avisar al Product Owner.
+* **Revisión y riesgo residual:** Retrospectiva (22/11) · bajo.
+### R-07 · El personal o los usuarios no adoptan el sistema (dueño: Karol)
+ 
+* **Estrategia:** mitigar.
+* **Acciones:** capacitación breve al personal de apoyo y aviso impreso para usuarios sobre su código (MIT-09).
+* **Disparador:** más de 3 visitas al día sin registro en el sistema.
+* **Contingencia / respaldo:** buscar al usuario por cédula si olvidó su código (consultar con el Product Owner); si no, anotar en papel y digitar después.
+* **Revisión y riesgo residual:** final de Sprints 2 y 3 · medio.
+### R-08 · Internet inestable en la biblioteca (dueño: Karol)
+ 
+* **Estrategia:** mitigar.
+* **Acciones:** probar el check-in y los préstamos en la red real de la biblioteca (MIT-10).
+* **Disparador:** el check-in tarda más de unos segundos o se cae durante una prueba.
+* **Contingencia / respaldo:** anotar temporalmente en papel y digitar cuando vuelva la conexión.
+* **Revisión y riesgo residual:** demo de cada Sprint · medio.
+### R-09 · Oportunidad: apoyo de la administración municipal (dueño: Karol)
+ 
+* **Estrategia:** mejorar (aumentar su probabilidad).
+* **Acciones:** enviar a la administración un resumen de una página al cierre del Sprint 2 y al despliegue, como indica el Plan de Comunicaciones (MIT-11).
+* **Disparador:** la administración pide datos de uso o de presupuesto.
+* **Contingencia / respaldo:** presentar los datos disponibles del Dashboard aunque estén incompletos.
+* **Revisión y riesgo residual:** cierre del Sprint 2 · no aplica.
+---
+ 
+## Riesgo a aceptar (zona verde)
+ 
+### R-10 · Cambio de esquema rompe lo ya hecho (dueña: Katherine)
+ 
+* **Estrategia:** aceptar con vigilancia.
+* **Acciones:** sin ítem nuevo; la DoD ya exige no regresión y pruebas de integración, y todo cambio al esquema pasa por Pull Request revisado.
+* **Disparador:** una prueba previa falla después de un cambio de esquema.
+* **Contingencia / respaldo:** revertir el cambio y corregirlo en una rama aparte.
+* **Revisión y riesgo residual:** cada Pull Request · bajo.
+---
+ 
+## Acciones para el Sprint Backlog
+ 
+| ID | Acción | Riesgo | Responsable |
+| :-- | :-- | :-- | :-- |
+| MIT-01 | Traspaso del módulo de libros | R-01 | Katherine |
+| MIT-02 | Traspaso del módulo de cubículos | R-01 | Karol |
+| MIT-03 | Prueba corta del correo saliente (1 día) | R-02 | Katherine |
+| MIT-04 | Interfaz `EnvioCorreo` | R-02 | Katherine |
+| MIT-05 | Validación escrita de reglas de 24 h y turnos | R-03 | Karol |
+| MIT-06 | Replanificar Sprint 2 | R-04 | Katherine |
+| MIT-07 | Correo a soporte técnico y despliegue de prueba | R-05 | Katherine |
+| MIT-08 | Protección de datos personales | R-06 | Katherine |
+| MIT-09 | Capacitación al personal y aviso a usuarios | R-07 | Karol |
+| MIT-10 | Prueba en la red de la biblioteca | R-08 | Karol |
+| MIT-11 | Resumen de una página para la administración | R-09 | Karol |
+ 
+---
+ 
+## Adquisiciones críticas
+ 
+* **Correo saliente (HU-03):** proveedor por definir con MIT-03 (plan gratuito) o servidor municipal · términos de uso, sin contrato de precio fijo ni de tiempo y materiales · salida: cambiar de proveedor desde `EnvioCorreo`.
+* **Ambiente de despliegue (TEC-05):** soporte técnico de la municipalidad · sin costo, acuerdo por correo · salida: instalación local en la biblioteca.
+* **GitHub y Trello:** plan gratuito · términos de uso · salida: clonar el repositorio y exportar el tablero cada Sprint.
+
+ ---
+
 # Cronograma de Entregas (Release Plan)
  
 * **Duración del Sprint:** 1 semana (el Sprint 1 cierra el 08/11 con dos Incrementos). **Inicio del Sprint 1:** 12/10/2026. **Cierre del proyecto:** 04/12/2026 *(ajustar)*.
@@ -307,5 +442,3 @@ Cada Pull Request lo revisa la otra integrante.
 | HU-02 | Edición de usuarios | 3 | Backend: Katherine · Frontend: Karol | En revisión |
 | HU-03 | Código por correo | 5 | Backend: Katherine · Plantilla: Karol | En progreso |
 | HU-04 | Control de acceso (check-in) | 3 | Backend: Katherine · Frontend: Karol | En progreso |
- 
- 
