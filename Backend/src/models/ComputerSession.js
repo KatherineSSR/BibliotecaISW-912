@@ -25,13 +25,24 @@ const ComputerSessionSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
+    durationMinutes: {
+        type: Number,
+        required: true,
+        min: 1,
+        max: 240,
+        default: 240
+    },
+    endsAt: {
+        type: Date,
+        required: true
+    },
     endedAt: {
         type: Date,
         default: null
     },
     status: {
         type: String,
-        enum: ['active', 'finished'],
+        enum: ['active', 'finished', 'expired'],
         default: 'active'
     }
 }, {
@@ -47,5 +58,6 @@ ComputerSessionSchema.index(
     { unique: true, partialFilterExpression: { status: 'active' } }
 );
 ComputerSessionSchema.index({ startedAt: -1 });
+ComputerSessionSchema.index({ status: 1, endsAt: 1 });
 
 module.exports = mongoose.model('ComputerSession', ComputerSessionSchema);

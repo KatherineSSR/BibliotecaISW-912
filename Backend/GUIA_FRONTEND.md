@@ -166,14 +166,18 @@ Devuelve el estado individual y los conteos de cubículos ocupados y libres.
   ```
   *La respuesta incluye los seis cubículos; se abrevia aquí por claridad.*
 
-### `PATCH /api/cubicles/:number`
-Marca un cubículo como ocupado (`occupied`) o libre (`free`).
+### `POST /api/cubicles/sessions`
+Asigna un cubículo libre a un visitante activo. El turno acepta de 1 a 240 minutos y, si no se envía la duración, se asignan 240 minutos.
 
 * **Headers:** `Authorization: Bearer <token>`
 * **Request Body:**
   ```json
-  { "status": "occupied" }
+  { "cubicleNumber": 1, "userCode": "1001", "durationMinutes": 240 }
   ```
+* Al vencer el turno, el cubículo se libera automáticamente. La respuesta de `GET /api/cubicles` incluye el ocupante activo y el historial reciente.
+
+### `PATCH /api/cubicles/sessions/:id/finish`
+Finaliza un turno activo y libera el cubículo.
 * **Respuestas de Error:** `400` número o estado inválido; `401` sesión ausente o expirada; `403` sesión sin rol de administrador.
 
 ---
@@ -186,17 +190,18 @@ Las rutas requieren un token de administrador. La sala cuenta con 14 computadora
 Devuelve estado de los puestos y las sesiones recientes.
 
 ### `POST /api/computer-lab/sessions`
-Inicia el uso de un puesto libre para un visitante activo.
+Inicia el uso de un puesto libre para un visitante activo. El turno acepta de 1 a 240 minutos y, si no se envía la duración, se asignan 240 minutos.
 
 ```json
 {
   "workstationNumber": 1,
-  "userCode": "1001"
+  "userCode": "1001",
+  "durationMinutes": 240
 }
 ```
 
 ### `PATCH /api/computer-lab/sessions/:id/finish`
-Finaliza la sesión y deja libre la computadora.
+Finaliza la sesión y deja libre la computadora. Los turnos vencidos se liberan automáticamente; `GET /api/computer-lab` devuelve sus estados y el historial.
 
 ---
 

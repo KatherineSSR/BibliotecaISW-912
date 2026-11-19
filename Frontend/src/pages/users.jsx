@@ -93,7 +93,7 @@ export default function UsersPage() {
             <button className="icon-button" onClick={() => modalRef.current?.close()} type="button" aria-label="Cerrar">×</button>
           </div>
           <p className="modal-description">Completa los datos del visitante. Su código de usuario se generará automáticamente.</p>
-          {formError && <div className="alert alert-error" role="alert"><Icon name="alert" /><span>{formError}</span></div>}
+          {formError && <div className="alert alert-error" role="alert"><Icon name="alert" /><span>{formError}</span><button className="alert-dismiss" onClick={() => setFormError('')} type="button" aria-label="Cerrar alerta">×</button></div>}
           <div className="form-grid">
             <div className="form-field"><label htmlFor="new-name">Nombre *</label><input id="new-name" name="name" required maxLength="80" /></div>
             <div className="form-field"><label htmlFor="new-lastname">Apellidos *</label><input id="new-lastname" name="lastName" required maxLength="100" /></div>

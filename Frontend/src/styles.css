@@ -62,6 +62,8 @@ svg { width: 19px; height: 19px; flex: 0 0 auto; }
 .alert svg { width: 17px; }
 .alert-error { color: #9c443b; border: 1px solid #f1d8d4; background: #fff7f5; }
 .alert-success { color: #246b51; border: 1px solid #d4eadd; background: #f4fbf6; }
+.alert-dismiss { flex: 0 0 auto; margin-left: auto; padding: 0 2px; border: 0; color: currentColor; background: transparent; font-size: 22px; line-height: 1; cursor: pointer; }
+.alert-dismiss:hover { opacity: .7; }
 .login-card .alert { margin: -10px 0 20px; }
 
 .admin-layout { min-height: 100vh; display: grid; grid-template-columns: 250px minmax(0, 1fr); }
@@ -242,6 +244,8 @@ td { padding: 14px 18px; border-top: 1px solid #f0ece5; color: #4f5c60; font-siz
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .form-field { display: grid; gap: 6px; }
 .form-field label { margin: 0; }
+.form-label { color: #394b5d; font-size: 12px; font-weight: 700; }
+.duration-inputs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .form-field input { height: 37px; }
 .form-field-wide { grid-column: 1 / -1; }
 .modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; padding-top: 15px; border-top: 1px solid #edf0f0; }
@@ -261,6 +265,9 @@ td { padding: 14px 18px; border-top: 1px solid #f0ece5; color: #4f5c60; font-siz
 .status-occupied { color: #c37956; }
 .cubicle-toggle { min-height: 36px; padding: 0 10px; font-size: 11px; white-space: nowrap; }
 .cubicle-error { margin-top: 12px; }
+.cubicle-history { margin-top: 16px; }
+.cubicle-history .table-toolbar { padding: 10px 0; }
+.cubicle-history h3 { margin: 0 0 4px; font: 600 14px 'Lora', serif; }
 
 @media (min-width: 1500px) {
   .page-content { padding-top: 42px; }

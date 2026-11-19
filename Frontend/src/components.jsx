@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { icons } from './core.js';
 
 export function Icon({ name, className = '' }) {
@@ -31,20 +31,43 @@ export function PageHeading({ eyebrow, title, children, actions }) {
   );
 }
 
+export function TurnDurationFields({ idPrefix }) {
+  return (
+    <div className="form-field form-field-wide">
+      <span className="form-label">Duración del turno *</span>
+      <div className="duration-inputs">
+        <div className="form-field">
+          <label htmlFor={`${idPrefix}-hours`}>Horas</label>
+          <input id={`${idPrefix}-hours`} name="durationHours" type="number" min="0" max="4" step="1" defaultValue="4" required />
+        </div>
+        <div className="form-field">
+          <label htmlFor={`${idPrefix}-minutes`}>Minutos</label>
+          <input id={`${idPrefix}-minutes`} name="durationRemainderMinutes" type="number" min="0" max="59" step="1" defaultValue="0" required />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function PageAlert({ message, onRetry }) {
-  if (!message) return null;
+  const [visible, setVisible] = useState(Boolean(message));
+  useEffect(() => setVisible(Boolean(message)), [message]);
+  if (!message || !visible) return null;
   return (
     <div className="alert alert-error page-alert" role="alert">
       <Icon name="alert" />
       <span>{message}</span>
       {onRetry && <button className="text-button" onClick={onRetry} type="button">Reintentar</button>}
+      <button className="alert-dismiss" onClick={() => setVisible(false)} type="button" aria-label="Cerrar alerta">×</button>
     </div>
   );
 }
 
 export function Notice({ message }) {
-  if (!message) return null;
-  return <div className="alert alert-success page-alert" role="status"><Icon name="check" /><span>{message}</span></div>;
+  const [visible, setVisible] = useState(Boolean(message));
+  useEffect(() => setVisible(Boolean(message)), [message]);
+  if (!message || !visible) return null;
+  return <div className="alert alert-success page-alert" role="status"><Icon name="check" /><span>{message}</span><button className="alert-dismiss" onClick={() => setVisible(false)} type="button" aria-label="Cerrar notificación">×</button></div>;
 }
 
 export function EmptyState({ icon, title, children }) {
