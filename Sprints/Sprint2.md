@@ -157,3 +157,225 @@ Construir y desplegar los módulos de catálogo y préstamo de libros con lista 
   * TEC-05: Despliegue final y entrega (3 puntos).
 
 ---
+## 3. Tareas por ítem, con responsable
+
+### Tareas Habilitadoras / Preparación Técnica
+* **TEC-2.1:** Diseñar el modelo de datos y las relaciones de `Book`, `Loan`, `Waitlist`, `Cubicle` y `ComputerSession`. *(Katherine Solis)*
+* **TEC-2.3:** Crear los componentes reutilizables de tablas, formularios y alertas. *(Karol Miranda)*
+
+### HU-05: Catálogo de libros · cierre 11/11
+* **T-05.1:** Diseñar la interfaz de listado, búsqueda y registro de libros. *(Katherine Solis)*
+* **T-05.2:** Programar el modelo `Book` y los endpoints CRUD y de búsqueda. *(Katherine Solis)*
+* **T-05.3:** Validar ISBN, año, ubicación y existencias. *(Katherine Solis)*
+
+### HU-06: Préstamo y devolución de libros cierre 13/11
+* **T-06.1:** Crear la pantalla para prestar y devolver, con búsqueda por código de usuario. *(Katherine Solis)*
+* **T-06.2:** Programar el modelo `Loan` y las reglas de vencimiento y devolución. *(Katherine Solis)*
+* **T-06.3:** Actualizar el inventario de forma atómica en cada préstamo y devolución. *(Katherine Solis)*
+* **T-06.4:** Probar préstamos activos, vencidos, duplicados y devoluciones. *(Katherine Solis)*
+
+### HU-07: Lista de espera de 24 horas cierre 15/11
+* **T-07.1:** Diseñar la interfaz de la lista de espera. *(Katherine Solis)*
+* **T-07.2:** Programar el modelo `Waitlist` y el orden FIFO. *(Katherine Solis)*
+* **T-07.3:** Programar la reserva de 24 horas y su expiración. *(Katherine Solis)*
+* **T-07.4:** Probar el traspaso de turno al siguiente usuario de la fila. *(Katherine Solis)*
+
+### HU-08: Préstamo de cubículos cierre 12/11
+* **T-08.1:** Mostrar la disponibilidad de cubículos y computadoras. *(Karol Miranda)*
+* **T-08.2:** Asignar cubículo o computadora mediante el código de usuario. *(Karol Miranda)*
+* **T-08.3:** Verificar la ocupación y la liberación del puesto. *(Karol Miranda)*
+
+### HU-09: Control de tiempo por turno · cierre 15/11
+* **T-09.1:** Programar la duración configurable del turno y la hora de vencimiento. *(Karol Miranda)*
+* **T-09.2:** Programar el inicio, la finalización y la expiración de las sesiones. *(Karol Miranda)*
+* **T-09.3:** Guardar el historial y los estados activo y finalizado. *(Karol Miranda)*
+
+---
+
+## 4. Cómo se verificará que cada ítem cumple la DoD
+Antes de marcar un ítem como completado y moverlo a la columna **Done**, el equipo aplicará la siguiente lista de verificación:
+* [ ] **Revisión cruzada:** El código fue sometido a *Pull Request* y revisado por la compañera de equipo.
+* [ ] **Pruebas superadas:** Las pruebas unitarias y de integración pasan satisfactoriamente sin advertencias.
+* [ ] **Persistencia verificada:** Los registros se comprueban directamente en la base de datos asegurando la integridad de la información.
+* [ ] **Ambiente de pruebas:** La funcionalidad se probó en el entorno de pruebas tanto en navegador de computadora como en vista móvil.
+* [ ] **Aprobación de criterios:** Se contrastó el funcionamiento contra los criterios de aceptación y se cuenta con el visto bueno del Product Owner.
+
+Si algún ítem falla en al menos un punto, permanece en estado **Doing** / **Testing** hasta ser corregido.
+
+---
+
+## 5. Acciones de mejora de la Retrospective del Sprint 1
+
+Estas tres acciones entran al Sprint Backlog 2 como tareas.
+
+| ID | Acción | Dueño | Fecha | Cómo se verifica |
+| :-- | :-- | :-- | :-: | :-- |
+| A-01 | Recalcular la velocidad con los 19 puntos reales del Sprint 1 y revisar que el alcance del Sprint 2 quepa | Karol | 13/11 | El Cronograma muestra la velocidad real y el burndown del Sprint 1 completo |
+| A-02 | Entregar historias completas (backend, pantalla y pruebas), no por capas | Katherine y Karol | 15/11 | Cada historia mostrada dice "cumple / no cumple la DoD" |
+| A-03 | Confirmar con el Product Owner la versión de la DoD y los criterios antes de iniciar el Sprint | Karol | Planning del Sprint 2 | El Sprint Backlog indica la versión de la DoD y la fecha de confirmación |
+
+---
+
+# Matriz de Estimación
+
+* **Escala:** Fibonacci (1, 2, 3, 5, 8, 13). Los puntos miden tamaño relativo, no horas.
+* **Historia de referencia (3 puntos):** HU-02 Edición de usuarios.
+* **Velocidad real del Sprint 1:** 19 puntos. La velocidad supuesta era de 22 (rango: mínima 18, máxima 28).
+* **Sprint 2:** se planifican 28 puntos, el máximo del rango. [completar: por qué el equipo puede con 28 puntos]
+
+| ID | Historia | Épica | Puntos | Prioridad | Dependencias | Sprint |
+| :--- | :--- | :--- | :---: | :---: | :--- | :---: |
+| TEC-00 | Preparación técnica | Técnica | 3 | Alta | - | 1 (terminado) |
+| HU-01 | Registro de usuarios con código único | Registro | 5 | Alta | TEC-00 | 1 (terminado) |
+| HU-02 | Edición de usuarios (**referencia**) | Registro | 3 | Alta | HU-01 | 1 (terminado) |
+| HU-03 | Código de usuario por correo | Registro | 5 | Alta | HU-01 | 1 (terminado) |
+| HU-04 | Control de acceso mediante código (check-in) | Acceso | 3 | Alta | HU-01 | 1 (terminado) |
+| HU-05 | Catálogo de libros | Libros | 5 | Media | TEC-00 | **2** |
+| HU-06 | Préstamo y devolución de libros | Libros | 5 | Alta | HU-01, HU-05 | **2** |
+| HU-07 | Lista de espera de 24 horas | Libros | 8 | Media | HU-06 | **2** |
+| HU-08 | Préstamo de cubículos | Cubículos | 5 | Alta | HU-01 | **2** |
+| HU-09 | Control de tiempo por turno | Cubículos | 5 | Media | HU-08 | **2** |
+| HU-10 | Dashboard de consulta | Dashboard | 8 | Media | HU-04, HU-06, HU-08 | 3 |
+| HU-11 | Reportes semanal, quincenal y mensual | Dashboard | 5 | Media | HU-10 | 3 |
+| TEC-05 | Despliegue final | Técnica | 3 | Alta | Todas | 3 |
+| | **Total** | | **63** | | | |
+
+**Por épica:** Registro 13 · Acceso 3 · Libros 18 · Cubículos 10 · Dashboard 13 · Técnica 6.
+
+**Supuestos y riesgos del Sprint 2:**
+1. Ya hay un dato real de velocidad (19 puntos), pero viene de un solo sprint.
+2. Somos dos personas y cada una trabaja un módulo distinto: una ausencia detiene todo un módulo.
+3. Las reglas de las 24 horas y de los turnos se validan con el bibliotecario antes de programarlas.
+4. HU-07 (8 puntos) es la historia más grande del sprint; si hay desacuerdo en el planning poker, se divide.
+
+---
+
+## Matriz de Riesgos (Registro de Riesgos)
+
+Los riesgos son los mismos del Sprint 1. Se agrega cómo están al iniciar el Sprint 2.
+
+| ID | Riesgo | Categoría | Tipo | P | I | Puntaje | Prioridad | Dueño | Estado al iniciar el Sprint 2 |
+| :-- | :-- | :-- | :-- | :-: | :-: | :-: | :-- | :-- | :-- |
+| R-01 | Si una integrante se ausenta o se satura, entonces la capacidad baja a la mitad y se detiene el módulo que solo ella conoce. | Equipo | Amenaza | 3 | 3 | 9 | **Alta prioridad** | Karol | Ahora cada una trabaja un módulo distinto, por eso se hacen los traspasos MIT-01 y MIT-02. |
+| R-02 | Si el correo saliente no llega o cae en spam, entonces el usuario no recibe su código y no puede hacer el check-in. | Tercero | Amenaza | 3 | 2 | 6 | **Alta prioridad** | Katherine | En el Sprint 1 el correo llegó a una cuenta real. Se sigue vigilando. |
+| R-03 | Si el bibliotecario no confirma las reglas de la lista de espera de 24 horas y los turnos, entonces HU-07 y HU-09 se rehacen. | Alcance | Amenaza | 3 | 2 | 6 | **Alta prioridad** | Karol | Aplica directo a este sprint: las reglas se confirman antes de programar HU-07 y HU-09. |
+| R-04 | Si el Sprint 2 (28 puntos) no se completa, entonces el Dashboard se atrasa y se consume la reserva del Sprint 4. | Alcance | Amenaza | 3 | 2 | 6 | **Alta prioridad** | Katherine | El Sprint 1 cerró con 19 puntos y este sprint planea 28. Es el riesgo más importante del sprint. |
+| R-05 | Si soporte técnico no tiene listo el ambiente, entonces el despliegue final se atrasa. | Tercero | Amenaza | 2 | 3 | 6 | **Alta prioridad** | Katherine | Se avisa a soporte técnico al iniciar el Sprint 2 (MIT-07). |
+| R-06 | Si los datos personales se exponen o se guardan sin protección, entonces hay un problema legal y se pierde la confianza. | Negocio | Amenaza | 1 | 3 | 3 | Vigilar | Katherine | Sin cambios. |
+| R-07 | Si el personal sigue usando el libro de papel o los usuarios olvidan su código, entonces los datos quedan incompletos. | Negocio | Amenaza | 2 | 2 | 4 | Vigilar | Karol | Sin cambios. |
+| R-08 | Si la biblioteca tiene internet inestable, entonces el check-in y los préstamos fallan en el mostrador. | Técnico | Amenaza | 2 | 2 | 4 | Vigilar | Karol | Ahora también afecta los préstamos de libros y cubículos (MIT-10). |
+| R-09 | Si los reportes se presentan a la administración municipal a tiempo, entonces puede apoyar el presupuesto y el horario. | Negocio | **Oportunidad** | 2 | 2 | 4 | Vigilar | Karol | Se envía el resumen de una página al cierre del Sprint 2 (MIT-11). |
+| R-10 | Si un cambio en el modelo de datos rompe lo ya hecho en usuarios y acceso, entonces se pierde tiempo corrigiendo. | Técnico | Amenaza | 1 | 2 | 2 | Aceptar | Katherine | Pesa más: este sprint agrega cinco colecciones al modelo. La DoD exige no regresión. |
+
+---
+
+## Mapa de calor
+
+| | Impacto bajo (1) | Impacto medio (2) | Impacto alto (3) |
+| :-- | :--: | :--: | :--: |
+| **Prob. alta (3)** | Vigilar<br>— | **Alta prioridad**<br>R-02 · R-03 · R-04 | **Alta prioridad**<br>R-01 |
+| **Prob. media (2)** | Aceptar<br>— | Vigilar<br>R-07 · R-08 · R-09 (oportunidad) | **Alta prioridad**<br>R-05 |
+| **Prob. baja (1)** | Aceptar<br>— | Aceptar<br>R-10 | Vigilar<br>R-06 |
+
+# Plan de Mitigación
+
+El plan completo de cada riesgo es el del Sprint 1. Para el Sprint 2 se incorporan al Sprint Backlog estas acciones:
+
+| ID | Acción | Riesgo | Responsable | Cuándo |
+| :-- | :-- | :-- | :-- | :-- |
+| MIT-01 | Traspaso de 30 min del módulo de libros a la otra integrante | R-01 | Katherine | Durante el Sprint 2 |
+| MIT-02 | Traspaso de 30 min del módulo de cubículos a la otra integrante | R-01 | Karol | Durante el Sprint 2 |
+| MIT-05 | Confirmar por escrito con el bibliotecario las reglas de 24 horas y de turnos, y anotarlas en los criterios de HU-07 y HU-09 | R-03 | Karol | Antes de iniciar HU-07 y HU-09 |
+| MIT-06 | Revisar el alcance del Sprint 2 con la velocidad real (se une a la acción A-01) | R-04 | Katherine | 13/11 |
+| MIT-07 | Correo a soporte técnico con los requisitos de despliegue y fecha | R-05 | Katherine | Inicio del Sprint 2 |
+| MIT-10 | Probar el check-in y los préstamos en la red real de la biblioteca | R-08 | Karol | Demo del Sprint 2 |
+| MIT-11 | Resumen de una página para la administración municipal | R-09 | Karol | Cierre del Sprint 2 |
+
+**Adquisiciones críticas:** sin cambios respecto al Sprint 1 (correo saliente, ambiente de despliegue, GitHub y Trello). MongoDB Atlas se usa en el plan gratuito, con salida de exportar la base de datos si cambia el plan.
+
+---
+
+# Cronograma de Entregas (Release Plan)
+
+* **Duración del Sprint 2:** 1 semana, del 09/11/2026 al 15/11/2026. **Cierre del proyecto:** 24/11/2026
+* **Sprints necesarios con la velocidad real:** quedan 44 puntos. 44 ÷ 19 = 2,3 → 3 Sprints más. Con el plan actual (28 + 16) alcanzan 2 Sprints, y el Sprint 4 queda como reserva.
+
+| Sprint | Fechas | Incremento | Historias | Puntos |
+| :---: | :--- | :--- | :--- | :---: |
+| 1 | 12/10 – 08/11 | Módulo de usuarios: registro, edición, código por correo y control de acceso | TEC-00, HU-01 a HU-04 | 19 (terminado) |
+| **2** | **09/11 – 15/11** | **Módulos completos de préstamo de libros y de cubículos** | **HU-05 a HU-09** | **28** |
+| 3 | 16/11 – 22/11 | Dashboard, reportes y despliegue | HU-10, HU-11, TEC-05 | 16 |
+| 4 (reserva) | 23/11 – 29/11 | Solo si el Sprint 2 no se completa o la velocidad es la mínima | Pendientes | - |
+
+* **Orden de trabajo del Sprint 2** (en paralelo):
+  1. **Incremento 2.1, préstamo de libros (Katherine):** HU-05 catálogo (hasta 11/11) → HU-06 préstamo y devolución (hasta 13/11) → HU-07 lista de espera de 24 horas (hasta 15/11).
+  2. **Incremento 2.2, préstamo de cubículos (Karol):** HU-08 préstamo (hasta 12/11) → HU-09 control de tiempo por turno (hasta 15/11).
+* **Hitos del Sprint 2:** 11/11 catálogo · 12/11 préstamo de cubículos · 13/11 préstamos y devoluciones · 15/11 lista de espera, control de turnos y demo con el Product Owner.
+* **Margen:** el release esperado termina el 22/11 y el peor caso el 29/11, con la semana del 30/11 al 04/12 libre para la documentación final y la entrega.
+* **Costo:** 30 horas-persona por Sprint.
+
+* **Seguimiento (burndown del release):**
+
+| Corte | Inicio | S1 | S2 | S3 |
+| :--- | :---: | :---: | :---: | :---: |
+| Pendientes (ideal) | 63 | 44 | 16 | 0 |
+| Pendientes (real) | 63 | 44 | | |
+
+# Plan de Comunicaciones
+
+| Interesado | Poder | Interés | Qué necesita | Frecuencia / evento | Canal | Responsable |
+| :--- | :---: | :---: | :--- | :--- | :--- | :--- |
+| Prof. Rudy Barboza (docente y Product Owner) | Alto | Alto | Avance, decisiones de alcance, impedimentos | Cada Sprint (Revisión) y en clase | Clase y correo institucional | Katherine |
+| Bibliotecario/a (cliente del caso) | Alto | Alto | Demo de flujos y validación de reglas (24 horas y turnos) | Antes de HU-07 y HU-09, y al final de cada Sprint | Demo y correo | Karol |
+| Administración municipal | Alto | Bajo | Resumen de una página del avance | Cierre de Sprint 2 y despliegue | Correo | Karol |
+| Soporte técnico | Alto | Bajo | Requisitos de despliegue y correo saliente | Inicio del Sprint 2 y ante cambios | Correo | Katherine |
+| Personal de apoyo | Bajo | Alto | Cómo usar check-in, préstamos y cubículos | Final de Sprints 2 y 3 | Presencial | Karol |
+| Usuarios de la biblioteca | Bajo | Alto | Su código y cómo usarlo | Al registrarse y al activar el ingreso | Correo automático y aviso impreso | Katherine |
+
+**Comunicación interna:** planificación al inicio del Sprint (30 min), reunión diaria de máximo 15 minutos por mensajería, Revisión con el Product Owner al final, Retrospectiva solo del equipo y Pull Requests en GitHub.
+
+**Reglas del equipo:**
+1. Respuesta en máximo 24 horas hábiles; si es urgente, se llama.
+2. Las decisiones se anotan en el tablero o en el Expediente, no solo en el chat.
+3. Los cambios de alcance se consultan primero con el Product Owner.
+4. Los bloqueos se avisan el mismo día.
+
+---
+
+# Tablero de Trabajo
+
+**Reparto del trabajo por módulo:**
+
+| Módulo | Historias | Responsable |
+| :--- | :--- | :--- |
+| Usuarios y acceso (terminado en el Sprint 1) | HU-01 a HU-04 | Backend: Katherine · Frontend: Karol |
+| Préstamo de libros | HU-05, HU-06, HU-07 | Katherine (HU-05 y HU-06) · Katherine y Karol (HU-07) |
+| Préstamo de cubículos | HU-08, HU-09 | Karol (completo) |
+| Dashboard y reportes | HU-10, HU-11 | Ambas, mitad y mitad |
+
+Cada Pull Request lo revisa la otra integrante.
+
+* **Herramienta:** Trello. **Enlace:** [Tablero de trabajo](https://trello.com/b/6aebddcac8243401d84573a9)
+
+| Columna | Significado | WIP máx. |
+| :--- | :--- | :---: |
+| Por hacer | Historias del Sprint Backlog 2 en orden de prioridad | - |
+| En progreso | Se está programando o diseñando | 2 |
+| En revisión | Pull Request esperando a la compañera | 2 |
+| En pruebas | Pruebas en el ambiente de pruebas (computadora y móvil) | 2 |
+| Hecho | Cumple el DoD | - |
+
+**Regla para pasar a "Hecho"** (DoD 2.0): Pull Request aprobado por la compañera, pruebas superadas, inventario y persistencia verificados, funciona en computadora y móvil, no hay regresión y hay visto bueno del Product Owner.
+
+| ID | Tarjeta en el tablero | Puntos | Responsable | Columna |
+| :--- | :--- | :---: | :--- | :--- |
+| HU-05 | S2 - HU-05: Catálogo de libros | 5 | Katherine | En pruebas |
+| HU-06 | S2 - HU-06: Préstamo y devolución de libros | 5 | Katherine | En pruebas |
+| HU-07 | S2 - HU-07: Lista de espera de 24 horas para libros agotados | 8 | Katherine y Karol | En pruebas |
+| HU-08 | S2 - HU-08: Préstamo de cubículos informáticos | 5 | Karol | En pruebas |
+| HU-09 | S2 - HU-09: Control de tiempo por turno de cubículos | 5 | Karol | En pruebas |
+| DOC-2 | S2 - Documentacion sprint 2 | - | Katherine y Karol | En progreso |
+
+* **Hecho:** las 6 tarjetas del Sprint 1 (TEC-00, HU-01 a HU-04 y S1 - Documentación Sprint 1), todas de Katherine y Karol.
+* **Sprint 3:** ya tiene sus tarjetas creadas (HU-10, HU-11, TEC-05, WA-01 y Documentación sprint 3).
+* **Etiquetas:** cada tarjeta lleva la etiqueta de su sprint (Sprint 1, Sprint 2 o Sprint 3) y el prefijo S1, S2 o S3 en el título.
