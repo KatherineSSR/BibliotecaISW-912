@@ -146,8 +146,14 @@ export default function ComputerLabPage() {
           <div className="modal-heading"><div><div className="eyebrow">SALA INFORMÁTICA</div><h2>Registrar uso</h2></div>
             <button className="icon-button" onClick={() => modalRef.current?.close()} type="button" aria-label="Cerrar">×</button>
           </div>
-          <p className="modal-description">Selecciona una computadora libre e ingresa el código del visitante.</p>
-          {formError && <div className="alert alert-error modal-error" role="alert"><Icon name="alert" /><span>{formError}</span><button className="alert-dismiss" onClick={() => setFormError('')} type="button" aria-label="Cerrar alerta">×</button></div>}
+          <p className="modal-description">Selecciona una computadora libre e ingresa el código del visitante. Finaliza la sesión al dejar el puesto.</p>
+          {formError && (
+            <div className="alert alert-error modal-error" role="alert">
+              <Icon name="alert" />
+              <span>{formError}</span>
+              <button className="alert-dismiss" onClick={() => setFormError('')} type="button" aria-label="Cerrar">×</button>
+            </div>
+          )}
           <div className="form-grid">
             <div className="form-field"><label htmlFor="computer-number">Computadora *</label>
               <select id="computer-number" name="workstationNumber" required>{free.map(item => <option key={item.number} value={item.number}>PC {item.number}</option>)}</select>

@@ -1,7 +1,9 @@
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 const bcrypt = require('bcryptjs');
 const connectDB = require('./config/db');
 const User = require('./models/User');
+const Book = require('./models/Book');
 
 const seedData = async () => {
     try {
@@ -100,12 +102,83 @@ const seedData = async () => {
 
         const allUsers = [...admins, ...users];
 
+        // 5 Libros iniciales para el catálogo
+        const initialBooks = [
+            {
+                title: 'Cien años de soledad',
+                author: 'Gabriel García Márquez',
+                isbn: '978-0307474728',
+                category: 'Ficción y Novela',
+                editorial: 'Editorial Sudamericana',
+                publicationYear: 1967,
+                totalCopies: 4,
+                availableCopies: 4,
+                location: 'Estantería Literatura A-1',
+                synopsis: 'La obra cumbre del realismo mágico sobre la saga de la familia Buendía en Macondo.',
+                isActive: true
+            },
+            {
+                title: 'Don Quijote de la Mancha',
+                author: 'Miguel de Cervantes',
+                isbn: '978-8424116286',
+                category: 'Literatura Clásica',
+                editorial: 'Real Academia Española',
+                publicationYear: 1605,
+                totalCopies: 3,
+                availableCopies: 3,
+                location: 'Estantería Clásicos B-2',
+                synopsis: 'Las aventuras del hidalgo don Quijote y su fiel escudero Sancho Panza.',
+                isActive: true
+            },
+            {
+                title: 'Breve historia del tiempo',
+                author: 'Stephen Hawking',
+                isbn: '978-8498929492',
+                category: 'Ciencia y Tecnología',
+                editorial: 'Crítica',
+                publicationYear: 1988,
+                totalCopies: 2,
+                availableCopies: 2,
+                location: 'Estantería Ciencias C-1',
+                synopsis: 'Un viaje divulgativo por los misterios del cosmos, el Big Bang y los agujeros negros.',
+                isActive: true
+            },
+            {
+                title: 'El Principito',
+                author: 'Antoine de Saint-Exupéry',
+                isbn: '978-0156013987',
+                category: 'Infantil y Juvenil',
+                editorial: 'Reynal & Hitchcock',
+                publicationYear: 1943,
+                totalCopies: 5,
+                availableCopies: 5,
+                location: 'Sala Juvenil D-1',
+                synopsis: 'Un clásico universal sobre la amistad, la inocencia y el valor de lo invisible.',
+                isActive: true
+            },
+            {
+                title: 'Historia de Costa Rica',
+                author: 'Carlos Monge Alfaro',
+                isbn: '978-9977641234',
+                category: 'Historia y Geografía',
+                editorial: 'Editorial Costa Rica',
+                publicationYear: 1980,
+                totalCopies: 2,
+                availableCopies: 2,
+                location: 'Colección Nacional CR-1',
+                synopsis: 'Estudio general de la evolución histórica e institucional del pueblo costarricense.',
+                isActive: true
+            }
+        ];
+
         // Borrar todo de la base de datos para reiniciar limpia
         await User.deleteMany({});
+        await Book.deleteMany({});
 
-        // Insertar los 6 registros
+        // Insertar los registros
         await User.insertMany(allUsers);
-        console.log('Base de datos limpiada y semilla insertada con éxito.');
+        await Book.insertMany(initialBooks);
+        console.log('Base de datos limpiada, usuarios y catálogo de libros insertados con éxito.');
         process.exit(0);
     } catch (error) {
         console.error('Error ejecutando el seed:', error);

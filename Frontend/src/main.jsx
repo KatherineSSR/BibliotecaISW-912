@@ -5,7 +5,8 @@ import { state, SESSION_KEY, request, dateLabel, getSession, setRenderHandler } 
 import { Icon } from './components.jsx';
 import DashboardPage, { loadDashboard } from './pages/dashboard.jsx';
 import UsersPage, { loadUsers } from './pages/users.jsx';
-import LoansPage from './pages/loans.jsx';
+import BooksPage, { loadBooks } from './pages/books.jsx';
+import LoansPage, { loadLoans } from './pages/loans.jsx';
 import ComputerLabPage, { loadComputerLab } from './pages/computer-lab.jsx';
 import AccessPage from './pages/access.jsx';
 import ReportsPage from './pages/reports.jsx';
@@ -13,6 +14,7 @@ import ReportsPage from './pages/reports.jsx';
 const navigation = [
   ['dashboard', 'Resumen', 'dashboard'],
   ['users', 'Usuarios', 'users'],
+  ['books', 'Libros / Catálogo', 'book'],
   ['loans', 'Préstamos', 'loan'],
   ['computer-lab', 'Sala informática', 'computer'],
   ['access', 'Accesos', 'access'],
@@ -22,6 +24,7 @@ const navigation = [
 const pageComponents = {
   dashboard: DashboardPage,
   users: UsersPage,
+  books: BooksPage,
   loans: LoansPage,
   'computer-lab': ComputerLabPage,
   access: AccessPage,
@@ -31,10 +34,12 @@ const pageComponents = {
 const pageLoaders = {
   dashboard: loadDashboard,
   users: loadUsers,
+  books: loadBooks,
+  loans: loadLoans,
   'computer-lab': loadComputerLab
 };
 
-function Login({ onLogin, error, onDismiss }) {
+function Login({ onLogin, error, onClearError }) {
   const [submitting, setSubmitting] = useState(false);
 
   async function handleSubmit(event) {
@@ -64,7 +69,15 @@ function Login({ onLogin, error, onDismiss }) {
       <section className="login-panel">
         <div className="login-card">
           <h2>Bienvenido de nuevo</h2>
-          {error && <div className="alert alert-error" role="alert"><Icon name="alert" /><span>{error}</span><button className="alert-dismiss" onClick={onDismiss} type="button" aria-label="Cerrar alerta">×</button></div>}
+          {error && (
+            <div className="alert alert-error" role="alert">
+              <Icon name="alert" />
+              <span>{error}</span>
+              {onClearError && (
+                <button className="alert-dismiss" onClick={onClearError} type="button" aria-label="Cerrar">×</button>
+              )}
+            </div>
+          )}
           <form onSubmit={handleSubmit}>
             <label htmlFor="email">Correo electrónico</label>
             <div className="input-wrap"><input id="email" name="email" type="email" autoComplete="username" required /></div>
@@ -89,7 +102,7 @@ function Brand() {
   );
 }
 
-function AdminShell({ onLogout, revision }) {
+function AdminShell({ onLogout, onNavigate, revision }) {
   const name = state.user?.name || 'Administrador';
   const initials = `${state.user?.name?.[0] || 'A'}${state.user?.lastName?.[0] || ''}`.toUpperCase();
   const Page = pageComponents[state.page] || DashboardPage;
@@ -97,7 +110,15 @@ function AdminShell({ onLogout, revision }) {
   return (
     <div className="admin-layout">
       <aside className="sidebar">
-        <a className="sidebar-brand" href="#/dashboard" aria-label="Ir al resumen">
+        <a
+          className="sidebar-brand"
+          href="#/dashboard"
+          onClick={(e) => {
+            e.preventDefault();
+            onNavigate('dashboard');
+          }}
+          aria-label="Ir al resumen"
+        >
           <span className="brand-mark"><Icon name="book" /></span>
           <span><strong>Biblioteca</strong><small>Ciudad Quesada</small></span>
         </a>
@@ -105,7 +126,15 @@ function AdminShell({ onLogout, revision }) {
         <div className="nav-caption">MENÚ PRINCIPAL</div>
         <nav className="side-nav" aria-label="Navegación principal">
           {navigation.map(([page, label, glyph]) => (
-            <a className={`nav-item ${state.page === page ? 'is-active' : ''}`} href={`#/${page}`} key={page}>
+            <a
+              className={`nav-item ${state.page === page ? 'is-active' : ''}`}
+              href={`#/${page}`}
+              key={page}
+              onClick={(e) => {
+                e.preventDefault();
+                onNavigate(page);
+              }}
+            >
               <Icon name={glyph} /><span>{label}</span>
             </a>
           ))}
@@ -136,6 +165,9 @@ function App() {
   async function navigateTo(requestedPage) {
     const page = pageComponents[requestedPage] ? requestedPage : 'dashboard';
     state.page = page;
+    if (window.location.hash !== `#/${page}`) {
+      window.history.pushState(null, '', `#/${page}`);
+    }
     state.error = '';
     state.notice = '';
     state.loading = true;
@@ -182,25 +214,31 @@ function App() {
   useEffect(() => {
     setRenderHandler(rerender);
 
-    const session = getSession();
-    if (!session?.token || !session?.user || session.user.role !== 'admin') {
-      sessionStorage.removeItem(SESSION_KEY);
-      state.user = null;
-      return;
-    }
-    state.user = session.user;
-
     const handleHashChange = () => {
-      if (state.user) navigateTo(window.location.hash.replace(/^#\/?/, '') || 'dashboard');
+      const targetPage = window.location.hash.replace(/^#\/?/, '') || 'dashboard';
+      if (state.user) {
+        navigateTo(targetPage);
+      }
     };
     window.addEventListener('hashchange', handleHashChange);
-    navigateTo(window.location.hash.replace(/^#\/?/, '') || 'dashboard');
+
+    const session = getSession();
+    if (session?.token && session?.user && session.user.role === 'admin') {
+      state.user = session.user;
+      const initialPage = window.location.hash.replace(/^#\/?/, '') || 'dashboard';
+      navigateTo(initialPage);
+    } else {
+      sessionStorage.removeItem(SESSION_KEY);
+      state.user = null;
+      rerender();
+    }
+
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
   return state.user
-    ? <AdminShell onLogout={logout} revision={revision} />
-    : <Login onLogin={login} error={loginError || state.error} onDismiss={() => { setLoginError(''); state.error = ''; }} />;
+    ? <AdminShell onLogout={logout} onNavigate={navigateTo} revision={revision} />
+    : <Login onLogin={login} error={loginError || state.error} onClearError={() => { setLoginError(''); state.error = ''; rerender(); }} />;
 }
 
 createRoot(document.querySelector('#app')).render(<App />);
