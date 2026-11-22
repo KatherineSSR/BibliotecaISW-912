@@ -19,7 +19,7 @@ Abre `http://localhost:3001`. El frontend usa el puerto `3001`, que es el origen
 
 El servicio API predeterminado es `http://localhost:3000`. Para cambiarlo, copia `.env.example` a `.env.local`, ajusta `VITE_API_URL` y reinicia el servidor de desarrollo.
 
-El login usa `POST /api/auth/login`. Después de iniciar sesión, el panel administra usuarios mediante `/api/users`, registra y finaliza sesiones de las 14 computadoras mediante `/api/computer-lab`, y comparte el estado de seis cubículos mediante `/api/cubicles`. Las rutas Préstamos, Accesos y Reportes permanecen visibles como módulos pendientes, sin funcionalidades ni llamadas a sus endpoints.
+El login usa `POST /api/auth/login`. Después de iniciar sesión, el panel administra usuarios mediante `/api/users`, registra turnos de hasta cuatro horas para las 14 computadoras mediante `/api/computer-lab` y para los seis cubículos mediante `/api/cubicles`. Ambos tipos de turno se vinculan con el visitante, pueden finalizarse manualmente y se liberan automáticamente al vencer. Las rutas Préstamos, Accesos y Reportes permanecen visibles como módulos pendientes, sin funcionalidades ni llamadas a sus endpoints.
 
 Los códigos de usuario nuevos son cadenas numéricas únicas de cuatro dígitos; pueden empezar con cero. Para actualizar los códigos existentes y los que aparecen en el historial de Sala Informática, ejecuta `npm run migrate:user-codes` desde `Backend` (no uses `npm run seed`, porque reinicia los usuarios).
 

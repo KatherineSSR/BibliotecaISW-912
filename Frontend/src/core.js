@@ -25,6 +25,7 @@ export const state = {
   page: 'dashboard',
   users: [],
   cubicles: [],
+  cubicleSessions: [],
   computerLab: { total: 14, occupied: 0, free: 14, workstations: [], sessions: [] },
   searchTerm: '',
   error: '',
@@ -73,6 +74,12 @@ export function formatTime(value) {
 
 export function formatDateTime(value) {
   return `${formatDate(value)} · ${formatTime(value)}`;
+}
+
+export function getTurnDurationMinutes(hours, minutes) {
+  if (!/^\d+$/.test(String(hours)) || !/^\d+$/.test(String(minutes))) return null;
+  const duration = Number(hours) * 60 + Number(minutes);
+  return duration >= 1 && duration <= 240 ? duration : null;
 }
 
 export function getSession() {

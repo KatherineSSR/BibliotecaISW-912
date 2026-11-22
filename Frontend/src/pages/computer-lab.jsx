@@ -1,6 +1,6 @@
-import React, { useRef, useState } from 'react';
-import { state, request, formatDateTime, formatTime, renderApp } from '../core.js';
-import { EmptyState, Icon, Notice, PageAlert, PageHeading, PersonCell, StatusPill } from '../components.jsx';
+import React, { useEffect, useRef, useState } from 'react';
+import { state, request, formatDateTime, formatTime, getTurnDurationMinutes, renderApp } from '../core.js';
+import { EmptyState, Icon, Notice, PageAlert, PageHeading, PersonCell, StatusPill, TurnDurationFields } from '../components.jsx';
 
 export async function loadComputerLab() {
   const [result, usersResult] = await Promise.all([request('/api/computer-lab'), request('/api/users')]);
@@ -22,6 +22,11 @@ export default function ComputerLabPage() {
   const free = state.computerLab.workstations.filter(workstation => workstation.status === 'free');
   const visitors = state.users.filter(user => user.role === 'user' && user.isActive !== false);
 
+  useEffect(() => {
+    const timer = setInterval(() => refresh(), 30000);
+    return () => clearInterval(timer);
+  }, []);
+
   function openModal(workstationNumber) {
     setFormError('');
     if (workstationNumber) formRef.current.elements.workstationNumber.value = workstationNumber;
@@ -34,11 +39,19 @@ export default function ComputerLabPage() {
     const form = event.currentTarget;
     const values = Object.fromEntries(new FormData(form).entries());
     values.workstationNumber = Number(values.workstationNumber);
+    values.durationMinutes = getTurnDurationMinutes(values.durationHours, values.durationRemainderMinutes);
+    delete values.durationHours;
+    delete values.durationRemainderMinutes;
+    if (!values.durationMinutes) {
+      setFormError('La duración debe ser mayor que cero y no superar las 4 horas.');
+      return;
+    }
     setSaving(true);
     setFormError('');
     try {
       const result = await request('/api/computer-lab/sessions', { method: 'POST', body: JSON.stringify(values) });
       state.notice = result.message;
+      form.reset();
       modalRef.current?.close();
       await loadComputerLab();
       renderApp();
@@ -89,7 +102,7 @@ export default function ComputerLabPage() {
         <article className="stat-card"><div className="stat-icon purple"><Icon name="computer" /></div><span className="stat-chip">TOTAL</span><div className="stat-value">{state.computerLab.total}</div><div className="stat-label">Puestos de la sala</div></article>
       </div>
       <section className="panel workstation-panel">
-        <div className="section-title"><div><h2>Estado de las computadoras</h2><p>Selecciona una estación libre para iniciar una sesión.</p></div>
+        <div className="section-title"><div><h2>Estado de las computadoras</h2><p>Selecciona una estación libre para iniciar un turno.</p></div>
           <button className="button button-quiet button-small" onClick={refresh} type="button"><Icon name="clock" /> Actualizar</button>
         </div>
         <div className="workstation-grid">
@@ -100,7 +113,7 @@ export default function ComputerLabPage() {
                 <div className="workstation-heading"><span className="workstation-number"><Icon name="computer" /> PC {workstation.number}</span><StatusPill inactive={Boolean(session)}>{session ? 'En uso' : 'Libre'}</StatusPill></div>
                 {session ? <>
                   <p className="workstation-user">{session.userName} <small>{session.userCode}</small></p>
-                  <p className="workstation-time">Desde {formatTime(session.startedAt)}</p>
+                  <p className="workstation-time">Desde {formatTime(session.startedAt)} · vence {formatTime(session.endsAt)}</p>
                   <button className="button button-quiet button-small" onClick={() => finishSession(session._id)} type="button">Finalizar uso</button>
                 </> : <>
                   <p className="workstation-user">Disponible ahora</p>
@@ -115,13 +128,14 @@ export default function ComputerLabPage() {
         <div className="table-toolbar"><div><h2>Registro de uso</h2><p>{state.computerLab.sessions.length} sesiones recientes</p></div></div>
         {state.computerLab.sessions.length ? (
           <div className="table-scroll"><table>
-            <thead><tr><th>VISITANTE</th><th>COMPUTADORA</th><th>INICIO</th><th>FIN</th><th>ESTADO</th></tr></thead>
+            <thead><tr><th>VISITANTE</th><th>COMPUTADORA</th><th>INICIO</th><th>FIN</th><th>DURACIÓN</th><th>ESTADO</th></tr></thead>
             <tbody>{state.computerLab.sessions.map(session => (
               <tr key={session._id}>
                 <td><PersonCell name={session.userName} detail={session.userCode} /></td>
                 <td>PC {session.workstationNumber}</td>
                 <td>{formatDateTime(session.startedAt)}</td><td>{session.endedAt ? formatDateTime(session.endedAt) : '—'}</td>
-                <td><StatusPill active={session.status === 'active'}>{session.status === 'active' ? 'Activa' : 'Finalizada'}</StatusPill></td>
+                <td>{session.durationMinutes || 240} min</td>
+                <td><StatusPill active={session.status === 'active'}>{session.status === 'active' ? 'Activa' : session.status === 'expired' ? 'Vencida' : 'Finalizada'}</StatusPill></td>
               </tr>
             ))}</tbody>
           </table></div>
@@ -132,8 +146,8 @@ export default function ComputerLabPage() {
           <div className="modal-heading"><div><div className="eyebrow">SALA INFORMÁTICA</div><h2>Registrar uso</h2></div>
             <button className="icon-button" onClick={() => modalRef.current?.close()} type="button" aria-label="Cerrar">×</button>
           </div>
-          <p className="modal-description">Selecciona una computadora libre e ingresa el código del visitante. Finaliza la sesión al dejar el puesto.</p>
-          {formError && <div className="alert alert-error modal-error" role="alert"><Icon name="alert" /><span>{formError}</span></div>}
+          <p className="modal-description">Selecciona una computadora libre e ingresa el código del visitante.</p>
+          {formError && <div className="alert alert-error modal-error" role="alert"><Icon name="alert" /><span>{formError}</span><button className="alert-dismiss" onClick={() => setFormError('')} type="button" aria-label="Cerrar alerta">×</button></div>}
           <div className="form-grid">
             <div className="form-field"><label htmlFor="computer-number">Computadora *</label>
               <select id="computer-number" name="workstationNumber" required>{free.map(item => <option key={item.number} value={item.number}>PC {item.number}</option>)}</select>
@@ -142,6 +156,7 @@ export default function ComputerLabPage() {
               <input id="computer-user-code" name="userCode" list="computer-visitors" required inputMode="numeric" pattern="[0-9]{4}" maxLength={4} placeholder="Ej. 1001" autoComplete="off" />
               <datalist id="computer-visitors">{visitors.map(user => <option key={user._id} value={user.userCode || ''}>{`${user.name} ${user.lastName}`}</option>)}</datalist>
             </div>
+            <TurnDurationFields idPrefix="computer-duration" />
           </div>
           <div className="modal-actions">
             <button className="button button-quiet" onClick={() => modalRef.current?.close()} type="button">Cancelar</button>

@@ -1,11 +1,14 @@
 const mongoose = require('mongoose');
 const ComputerSession = require('../models/ComputerSession');
+const CubicleSession = require('../models/CubicleSession');
 const User = require('../models/User');
+const { MAX_TURN_MINUTES, isValidTurnDuration, getTurnEndAt, expireActiveTurns } = require('../services/turns');
 
 const TOTAL_WORKSTATIONS = 14;
 
 const getComputerLab = async (req, res) => {
     try {
+        await expireActiveTurns();
         const limit = Math.min(Math.max(Number(req.query.limit) || 50, 1), 200);
         const [activeSessions, recentSessions] = await Promise.all([
             ComputerSession.find({ status: 'active' }).sort({ workstationNumber: 1 }).lean(),
@@ -36,13 +39,18 @@ const startComputerSession = async (req, res) => {
     try {
         const workstationNumber = Number(req.body.workstationNumber);
         const userCode = typeof req.body.userCode === 'string' ? req.body.userCode.trim() : '';
-        if (!Number.isInteger(workstationNumber) || workstationNumber < 1 || workstationNumber > TOTAL_WORKSTATIONS || !/^\d{4}$/.test(userCode)) {
+        const durationMinutes = req.body.durationMinutes === undefined
+            ? MAX_TURN_MINUTES
+            : Number(req.body.durationMinutes);
+        if (!Number.isInteger(workstationNumber) || workstationNumber < 1 || workstationNumber > TOTAL_WORKSTATIONS ||
+            !/^\d{4}$/.test(userCode) || !isValidTurnDuration(durationMinutes)) {
             return res.status(400).json({
                 success: false,
-                message: `Selecciona una computadora entre 1 y ${TOTAL_WORKSTATIONS} e ingresa un código de visitante de cuatro dígitos.`
+                message: `Selecciona una computadora entre 1 y ${TOTAL_WORKSTATIONS}, un código de cuatro dígitos y un turno de 1 a ${MAX_TURN_MINUTES} minutos.`
             });
         }
 
+        await expireActiveTurns();
         const user = await User.findOne({ userCode });
         if (!user || user.role !== 'user') {
             return res.status(404).json({ success: false, message: 'No se encontró un visitante con ese código.' });
@@ -51,11 +59,19 @@ const startComputerSession = async (req, res) => {
             return res.status(403).json({ success: false, message: 'El usuario está inactivo.' });
         }
 
+        if (await CubicleSession.exists({ user: user._id, status: 'active' })) {
+            return res.status(409).json({ success: false, message: 'El visitante ya tiene un turno activo en un cubículo.' });
+        }
+
+        const startedAt = new Date();
         const session = await ComputerSession.create({
             workstationNumber,
             user: user._id,
             userName: `${user.name} ${user.lastName}`,
-            userCode
+            userCode,
+            durationMinutes,
+            startedAt,
+            endsAt: getTurnEndAt(startedAt, durationMinutes)
         });
         return res.status(201).json({ success: true, message: `Uso de computadora ${workstationNumber} registrado.`, data: session });
     } catch (error) {
@@ -79,6 +95,7 @@ const finishComputerSession = async (req, res) => {
         if (!mongoose.isValidObjectId(req.params.id)) {
             return res.status(400).json({ success: false, message: 'El identificador de la sesión no es válido.' });
         }
+        await expireActiveTurns();
         const session = await ComputerSession.findOneAndUpdate(
             { _id: req.params.id, status: 'active' },
             { $set: { status: 'finished', endedAt: new Date() } },
@@ -86,9 +103,10 @@ const finishComputerSession = async (req, res) => {
         );
         if (!session) {
             const exists = await ComputerSession.exists({ _id: req.params.id });
+            const expired = exists && await ComputerSession.exists({ _id: req.params.id, status: 'expired' });
             return res.status(exists ? 409 : 404).json({
                 success: false,
-                message: exists ? 'La sesión ya fue finalizada.' : 'No se encontró la sesión solicitada.'
+                message: expired ? 'El turno ya venció.' : exists ? 'La sesión ya fue finalizada.' : 'No se encontró la sesión solicitada.'
             });
         }
         return res.status(200).json({ success: true, message: 'Uso de computadora finalizado.', data: session });

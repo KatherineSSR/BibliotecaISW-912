@@ -34,7 +34,7 @@ const pageLoaders = {
   'computer-lab': loadComputerLab
 };
 
-function Login({ onLogin, error }) {
+function Login({ onLogin, error, onDismiss }) {
   const [submitting, setSubmitting] = useState(false);
 
   async function handleSubmit(event) {
@@ -64,7 +64,7 @@ function Login({ onLogin, error }) {
       <section className="login-panel">
         <div className="login-card">
           <h2>Bienvenido de nuevo</h2>
-          {error && <div className="alert alert-error" role="alert"><Icon name="alert" /><span>{error}</span></div>}
+          {error && <div className="alert alert-error" role="alert"><Icon name="alert" /><span>{error}</span><button className="alert-dismiss" onClick={onDismiss} type="button" aria-label="Cerrar alerta">×</button></div>}
           <form onSubmit={handleSubmit}>
             <label htmlFor="email">Correo electrónico</label>
             <div className="input-wrap"><input id="email" name="email" type="email" autoComplete="username" required /></div>
@@ -200,7 +200,7 @@ function App() {
 
   return state.user
     ? <AdminShell onLogout={logout} revision={revision} />
-    : <Login onLogin={login} error={loginError || state.error} />;
+    : <Login onLogin={login} error={loginError || state.error} onDismiss={() => { setLoginError(''); state.error = ''; }} />;
 }
 
 createRoot(document.querySelector('#app')).render(<App />);
