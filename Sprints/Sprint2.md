@@ -379,3 +379,106 @@ Cada Pull Request lo revisa la otra integrante.
 * **Hecho:** las 6 tarjetas del Sprint 1 (TEC-00, HU-01 a HU-04 y S1 - Documentación Sprint 1), todas de Katherine y Karol.
 * **Sprint 3:** ya tiene sus tarjetas creadas (HU-10, HU-11, TEC-05, WA-01 y Documentación sprint 3).
 * **Etiquetas:** cada tarjeta lleva la etiqueta de su sprint (Sprint 1, Sprint 2 o Sprint 3) y el prefijo S1, S2 o S3 en el título.
+
+# Acta de Sprint Review y Cierre
+
+## 1. Fecha, duración y asistentes
+
+- **Fecha:** 15/11/2026
+- **Duración:** 1 hora
+- **Product Owner:** Prof. Rudy Barboza Rodríguez
+- **Scrum Master:** Karol Miranda Mora
+- **Developers:** Katherine Solis Ramírez (libros) y Karol Miranda Mora (cubículos y computadoras)
+
+## 2. Sprint Goal y si se cumplió
+
+- **Sprint Goal:** construir y desplegar el catálogo y el préstamo de libros con lista de espera de 24 horas, y el préstamo de cubículos informáticos con control de turnos, para tener el inventario controlado y un acceso justo a los recursos de la biblioteca.
+- **Resultado:** **cumplido.** Las cinco historias del Sprint funcionan de principio a fin en el ambiente de pruebas.
+- **Entregas del Sprint:**
+  1. **Incremento 2.1 (Katherine):** catálogo de libros, préstamo y devolución, y lista de espera de 24 horas.
+  2. **Incremento 2.2 (Karol):** préstamo de cubículos y control de tiempo por turno.
+
+## 3. Historias mostradas y cuáles cumplen la DoD
+
+Se mostró el producto funcionando en el ambiente de pruebas.
+
+- **HU-05, Catálogo de libros (5 puntos):** se registró y se buscó un libro, y el sistema validó ISBN, año, ubicación y existencias. **Cumple la DoD.**
+- **HU-06, Préstamo y devolución de libros (5 puntos):** se prestó un libro a un usuario con su código, bajó la cantidad de ejemplares disponibles y al devolverlo volvió a subir. Se probaron también los préstamos vencidos y los duplicados. **Cumple la DoD.**
+- **HU-07, Lista de espera de 24 horas (8 puntos):** con un libro agotado, el usuario quedó en la lista. Al devolverse el libro, se le reservó por 24 horas y, al vencer la reserva, el turno pasó al siguiente de la fila. **Cumple la DoD.**
+- **HU-08, Préstamo de cubículos informáticos (5 puntos):** se asignó un cubículo con el código del usuario. **Cumple la DoD.**
+- **HU-09, Control de tiempo por turno (5 puntos):** se configuró la duración del turno, el sistema calculó la hora de vencimiento y mostró los estados activo y finalizado con su historial. **Cumple la DoD.**
+
+Las tareas técnicas TEC-2.1, TEC-2.2 y TEC-2.3 (modelo de datos, ambiente y componentes) también quedaron terminadas.
+
+**Puntos terminados:** 28 de 28 planificados.
+
+## 4. Cambios al Product Backlog acordados
+
+- **Sin cambios de alcance.** Las historias del Sprint 3 se mantienen: Dashboard gerencial (HU-10), Reportes en PDF (HU-11) y despliegue final (TEC-05).
+- **Prioridades:** se mantienen. Sigue el Dashboard y después el despliegue.
+
+## 5. Estado del release: avance frente al Cronograma de Entregas
+
+- **Avance:** 47 de 63 puntos terminados. Quedan 16 puntos, igual a lo previsto en el seguimiento ideal del Sprint 2.
+- **Velocidad:** el Sprint 1 cerró con 19 puntos y el Sprint 2 con 28.
+- **Seguimiento (burndown del release):**
+
+| Corte | Inicio | S1 | S2 | S3 |
+| :--- | :---: | :---: | :---: | :---: |
+| Pendientes (ideal) | 63 | 44 | 16 | 0 |
+| Pendientes (real) | 63 | 44 | 16 | |
+
+- **Próximo Sprint (Sprint 3):** Dashboard, reportes y despliegue (HU-10, HU-11 y TEC-05, 16 puntos), del 16/11 al 22/11.
+- **Cierre del proyecto:** sin cambios en la fecha (24/11/2026).
+---
+
+## Parte 2. Acta de Sprint Retrospective
+
+### 1. Formato usado
+
+**Start / Stop / Continue** (qué empezar, qué dejar y qué seguir haciendo). Participó el equipo Scrum: Product Owner, Scrum Master y Developers. Duración: 45 minutos. Regla de la sesión: se habla del proceso, no de personas.
+
+### 2. Qué funcionó bien y qué no, con evidencia
+
+**Continue (seguir haciendo):**
+
+- **Trabajar los dos módulos en paralelo, uno por integrante.** Evidencia: los dos incrementos (2.1 y 2.2) se terminaron dentro del Sprint, con las cinco historias y los 28 puntos.
+- **Poner una fecha de cierre a cada historia, en orden de dependencia.** Evidencia: el Sprint Backlog fijó el 11/11 para el catálogo, el 12/11 para los cubículos, el 13/11 para préstamos y el 15/11 para la lista de espera y los turnos.
+
+**Stop (dejar de hacer):**
+
+- **Dejar todo un módulo en una sola persona.** Evidencia: HU-05 y HU-06 son de Katherine, HU-08 y HU-09 son de Karol.
+
+**Start (empezar a hacer):**
+
+- Terminar las tarjetas en el momento: moverlas a "Hecho" cuando cumplan la DoD.
+
+### 3. Seguimiento de las acciones del sprint anterior
+
+| ID | Acción | Estado | Evidencia |
+| :-- | :-- | :-: | :-- |
+| A-01 | Recalcular la velocidad con los 19 puntos reales y revisar el alcance del Sprint 2 | Cumplida | El Cronograma y la Matriz de Estimación muestran la velocidad real y el burndown del Sprint 1 completo |
+| A-02 | Entregar historias completas, no por capas | Cumplida | En esta acta, cada historia mostrada dice si cumple la DoD |
+| A-03 | Confirmar la DoD y los criterios con el Product Owner antes de iniciar el Sprint |  | La DoD 2.0 tiene fecha de aprobación del 15/11/2026, que es posterior al inicio del Sprint (09/11) |
+
+### 4. Acciones de mejora (máximo 3, con dueño y fecha)
+
+1. **Respetar el WIP en el Sprint 3.**
+   - **Acción:** no pasar de 2 tarjetas en "En progreso", "En revisión" y "En pruebas", y mover cada tarjeta a la siguiente columna apenas termine.
+   - **Dueño:** Katherine Solis y Karol Miranda (Developers).
+   - **Fecha:** durante el Sprint 3 (cierre el 24/11/2026).
+   - **Cómo se verifica:** la captura del tablero al cierre del Sprint 3 no muestra más de 2 tarjetas en esas columnas.
+2. **Hacer el traspaso de los módulos de libros y cubículos.**
+   - **Acción:** cada integrante explica su módulo a la otra en 30 minutos (MIT-01 y MIT-02), porque el Dashboard (HU-10) usa los datos de los dos.
+   - **Dueño:** Katherine Solis (libros) y Karol Miranda (cubículos).
+   - **Fecha:** 17/11/2026, el día en que se definen los indicadores del Dashboard.
+   - **Cómo se verifica:** el Sprint Backlog 3 registra la fecha en que se hizo cada traspaso.
+3. **Confirmar la DoD antes de iniciar el Sprint.**
+   - **Acción:** en el Planning del Sprint 3 se confirma con el Product Owner la versión de la DoD y los criterios de cada historia, antes de empezar a trabajar.
+   - **Dueño:** Karol Miranda (Scrum Master), con la confirmación del Product Owner.
+   - **Fecha:** Planning del Sprint 3 (16/11/2026).
+   - **Cómo se verifica:** el Sprint Backlog 3 indica la versión de la DoD y una fecha de confirmación anterior al inicio del Sprint.
+
+### 5. Acciones incorporadas al Sprint Backlog siguiente
+
+Las tres acciones entran al Sprint Backlog 3 como tareas con responsable y fecha. Se revisan en la Retrospective del Sprint 3.
