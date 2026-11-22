@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const { getUniqueUserCode } = require('../utils/codeGenerator');
+const { sendUserCodeEmail } = require('../services/emailService');
 
 /**
  * HU-01: Registrar un usuario y generar código único automáticamente
@@ -68,6 +69,15 @@ const registerUser = async (req, res) => {
         });
 
         await newUser.save();
+
+        // HU-03: Despachar correo electrónico con el código único de acceso
+        sendUserCodeEmail({
+            to: newUser.email,
+            name: `${newUser.name} ${newUser.lastName}`.trim(),
+            userCode: newUser.userCode
+        }).catch(err => {
+            console.error('[EmailService] Error asíncrono al enviar correo:', err);
+        });
 
         const userObj = newUser.toObject();
         delete userObj.password;

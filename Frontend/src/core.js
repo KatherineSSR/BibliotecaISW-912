@@ -17,7 +17,10 @@ export const icons = {
   id: '<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M6 16c.8-1.3 1.8-2 3-2s2.2.7 3 2m3-5h3m-3 4h3"/>',
   check: '<path d="m5 12 4 4L19 6"/>',
   cubicle: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 4v16m8-16v16M3 10h5m8 0h5"/>',
-  alert: '<path d="M10.3 3.9 2.5 17.4A2 2 0 0 0 4.2 20h15.6a2 2 0 0 0 1.7-2.6L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4m0 4h.01"/>'
+  alert: '<path d="M10.3 3.9 2.5 17.4A2 2 0 0 0 4.2 20h15.6a2 2 0 0 0 1.7-2.6L13.7 3.9a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4m0 4h.01"/>',
+  edit: '<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>',
+  trash: '<path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2m-6 5v6m4-6v6"/>',
+  filter: '<polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>'
 };
 
 export const state = {
@@ -27,6 +30,17 @@ export const state = {
   cubicles: [],
   cubicleSessions: [],
   computerLab: { total: 14, occupied: 0, free: 14, workstations: [], sessions: [] },
+  books: [],
+  bookCategories: [],
+  bookStats: { totalTitles: 0, totalCopies: 0, availableCopies: 0, borrowedCopies: 0, outOfStockCount: 0 },
+  bookSearch: '',
+  bookCategoryFilter: '',
+  bookAvailabilityFilter: 'all',
+  loans: [],
+  loanStats: { activeCount: 0, overdueCount: 0, returnedCount: 0, returnedTodayCount: 0, loanedTodayCount: 0, waitingCount: 0, totalLoans: 0 },
+  waitlist: [],
+  loanFilter: 'all',
+  loanSearch: '',
   searchTerm: '',
   error: '',
   notice: '',
