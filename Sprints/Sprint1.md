@@ -23,189 +23,132 @@
 
 </div>
 
-<h1 style="margin-top: 0;">Ciclo de vida del proyecto y primer sprint</h1>
+# 1. Ciclo de vida del proyecto y primer Sprint
 
-**Enfoque:** mixto (predictivo/adaptativo)
+**Enfoque:** mixto (predictivo/adaptativo).
 
-En este caso, es mejor combinar ambos enfoques. El alcance general contará con cinco módulos y la construcción será por sprints semanales. De esta forma, podemos ir ajustando los cambios que van surgiendo. La meta de este primer sprint consiste en definir los ambientes de desarrollo de los miembros del equipo, la estructura de la base de datos y el frontend a utilizar.
+El alcance general se define desde el inicio con cinco módulos, y la construcción se hace por Sprints semanales para ir ajustando los cambios que surjan. La meta del primer Sprint es dejar listo el ambiente de trabajo, la base de datos y el módulo de usuarios.
 
 ## Problema
 
-La Biblioteca Pública de Ciudad Quesada anota a mano en libros de papel los préstamos, el uso de computadoras y el ingreso de usuarios. Eso hace que la información esté dispersa, haya errores al copiar datos y no se puedan sacar informes para justificar el presupuesto y el horario.
+La Biblioteca Pública de Ciudad Quesada anota a mano, en libros de papel, los préstamos, el uso de computadoras y el ingreso de usuarios. La información queda dispersa, hay errores al copiar datos y no se pueden sacar informes para justificar el presupuesto y el horario.
 
-## Backlog inicial (historias de usuario)
+## Backlog inicial
 
-1. **Registro de usuarios**
+1. **Registro de usuarios:** como administrador, quiero registrar y editar usuarios y generar un código único, para identificarlos en el sistema.
+2. **Control de acceso:** como usuario, quiero ingresar mi código al llegar, para registrar mi entrada.
+3. **Préstamos de libros:** como administrador, quiero registrar los préstamos de libros, para controlar lo que se presta.
+4. **Préstamos de cubículos:** como administrador, quiero manejar los préstamos de cubículos, para saber cuáles están ocupados y libres.
+5. **Dashboard:** como administrador, quiero consultar préstamos, accesos y uso de cubículos, para controlar la biblioteca y generar reportes.
 
-   Como administrador, quiero registrar y editar la información de los usuarios y generar un código único, para poder identificarlos dentro del sistema.
+## Fases del proyecto
 
-2. **Control de acceso**
+| N° | Fase | Qué se realizará |
+| :-: | :--- | :--- |
+| 1 | Inicio | Identificar el problema, los interesados y el objetivo del sistema. |
+| 2 | Planificación | Armar y priorizar el Product Backlog y definir la duración de los Sprints. |
+| 3 | Ejecución | Construir el sistema Sprint por Sprint, empezando por el registro de usuarios. |
+| 4 | Monitoreo y control | Revisar el Sprint Backlog y validar cada avance en la Sprint Review. |
+| 5 | Cierre | Desplegar el sistema y entregar. |
 
-   Como usuario, quiero ingresar mi código al llegar a la biblioteca, para registrar mi entrada y llevar un control de los visitantes.
+# 2. Definition of Done 1.0
 
-3. **Préstamos de libros**
+Una historia está **Hecha** cuando cumple sus criterios de aceptación y todos los puntos de esta lista. Si no los cumple, no se presenta en la Sprint Review y vuelve al Product Backlog.
 
-   Como administrador, quiero registrar los préstamos de libros, para poder llevar un control de los préstamos realizados.
+## Criterios de calidad
 
-4. **Préstamos de cubículos**
+1. **Revisión cruzada:** el Pull Request lo revisa y aprueba la otra integrante.
+2. **Validación de datos:** en cliente y servidor (cédula, correo, campos obligatorios y unicidad).
+3. **Persistencia:** los datos se guardan en la base de datos (MongoDB Atlas) sin pérdidas ni registros huérfanos.
+4. **Diseño responsivo:** funciona en computadora y en celular o tableta.
+5. **Sin errores bloqueantes:** compila y no da errores 500.
+6. **No regresión:** lo nuevo no daña lo que ya funcionaba.
+7. **Validación con el Product Owner.**
 
-   Como administrador, quiero manejar los préstamos de cubículos, para poder tener un control de los ocupados y disponibles.
+## Pruebas exigidas
 
-5. **Dashboard**
+| Tipo | Qué se prueba |
+| :--- | :--- |
+| Unitarias | Formato de cédula y correo; generación del código único de 4 dígitos. |
+| Integración | Frontend, backend y base de datos; envío del correo con el código; check-in con fecha y hora. |
+| Manuales | Flujo completo: registro → correo → check-in. Casos límite: código no registrado, cédula duplicada y campos vacíos. |
 
-   Como administrador, quiero consultar la información de los préstamos, accesos y uso de cubículos, para tener un mejor control de la biblioteca y generar reportes.
+## Integración, despliegue y documentación
 
-## Fases a seguir (Mapa de vida)
+* Cada función se trabaja en una rama `feature/` y se integra por Pull Request revisado.
+* Ninguna historia se presenta si no se probó en el ambiente de pruebas.
+* Documentación: esquema de la base de datos (usuarios y accesos), casos de prueba e historial de cambios en el Expediente.
 
-| N° Fase | Fase | Qué se realizará |
-| :---: | :--- | :--- |
-| 1 | Inicio | Se identifica el problema, los interesados (bibliotecario, personal de apoyo, usuarios, administración municipal, soporte técnico) y se define el objetivo del sistema. |
-| 2 | Planificación | Se arma el Product Backlog con los cinco módulos, se priorizan y se define la duración de los Sprints. |
-| 3 | Ejecución | Se construye el sistema Sprint por Sprint, empezando por el registro de usuarios. |
-| 4 | Monitoreo y control | Se revisa el Sprint Backlog durante el Sprint y se hace Sprint Review con el equipo para validar cada avance. |
-| 5 | Cierre | Se despliega el sistema. |
+**Aprobación:** Karol Miranda Mora, Katherine Solis Ramírez y Prof. Rudy Barboza Rodríguez (Product Owner) · Versión 1.0 · 14/10/2026.
 
----
+# 3. Sprint Backlog 1
 
-# Documento de Definition of Done (DoD)
+## Sprint Goal
 
-## 1. Propósito
-Establecer un estándar de calidad compartido y riguroso para el equipo de desarrollo (Karol Miranda Mora y Katherine Solis Ramírez) y el Product Owner (Prof. Rudy Barboza Rodríguez). En el sistema de la Biblioteca Pública de Ciudad Quesada, una historia de usuario o incremento de software solo se considerará **"Terminado" (Done)** cuando:
-1. Satisface la totalidad de sus criterios de aceptación funcionales (hace exactamente lo que se solicitó).
-2. Cumple de manera integral con los criterios de calidad, pruebas, integración y documentación estipulados en esta DoD (está bien construido y probado).
+Construir y desplegar el registro de usuarios y el control de acceso con un código único enviado por correo, para identificar a los visitantes y registrar su ingreso.
 
-Si un ítem no cumple ambos aspectos, no podrá presentarse en la *Sprint Review* ni considerarse parte del incremento entregable, y retornará automáticamente al *Product Backlog*.
+## Ítems seleccionados
 
----
+| ID | Historia | Puntos |
+| :--- | :--- | :-: |
+| TEC-00 | Preparación técnica (repositorio, ambiente, base de datos y diseño base) | 3 |
+| HU-01 | Registro de usuarios con código único | 5 |
+| HU-02 | Edición de usuarios | 3 |
+| HU-03 | Código de usuario por correo | 5 |
+| HU-04 | Control de acceso con código (check-in) | 3 |
+| | **Total** | **19** |
 
-## 2. Criterios de calidad (Lista verificable)
-Para dar por terminado cualquier ítem, se debe verificar el cumplimiento de los siguientes criterios:
+Quedan fuera: libros, cubículos y dashboard.
 
-1. **Revisión de código por pares (Code Review):** Todo código desarrollado por una integrante debe ser revisado y aprobado por la otra integrante mediante un *Pull Request* antes de ser fusionado.
-2. **Validación y consistencia de datos:** Los formularios implementan validaciones obligatorias tanto en cliente como en servidor (cédula válida, formato de correo electrónico, unicidad y campos no nulos).
-3. **Persistencia e integridad referencial:** Los datos se guardan correctamente en la base de datos relacional, sin errores de concurrencia, pérdida de información ni llaves foráneas huérfanas.
-4. **Diseño responsivo y adaptabilidad:** Las interfaces son accesibles, limpias y funcionales tanto en computadoras de escritorio (resolución estándar de biblioteca) como en dispositivos móviles (celulares y tabletas).
-5. **Cero defectos bloqueantes en consola:** La aplicación compila limpiamente y no arroja advertencias críticas, excepciones no capturadas ni errores 500 en el servidor.
-6. **No regresión:** Las nuevas funciones no alteran ni degradan el comportamiento de los componentes previamente desarrollados.
-7. **Validación con el Product Owner:** Se valida y demuestra el cumplimiento de los criterios de aceptación directamente con el Product Owner.
+## Tareas y responsables
 
----
+| ID | Tarea | Responsable |
+| :--- | :--- | :--- |
+| TEC-01 | Crear el repositorio, las ramas y las reglas de Pull Request | Karol y Katherine |
+| TEC-02 | Configurar el ambiente de desarrollo y de pruebas | Karol y Katherine |
+| TEC-03 | Diseñar el modelo de datos (`Usuario`, `Acceso`, `TipoUsuario`) | Katherine |
+| TEC-04 | Diseño visual base y componentes reutilizables | Karol |
+| T-01.1 | Formulario de registro | Karol |
+| T-01.2 | Validaciones de cédula, correo, edad y campos requeridos | Katherine |
+| T-01.3 | Generación automática del código único | Katherine |
+| T-01.4 | Guardado en la base de datos y pruebas unitarias | Katherine |
+| T-02.1 | Vista de búsqueda y edición de usuarios | Karol |
+| T-02.2 | Endpoint de actualización | Katherine |
+| T-02.3 | Probar que la edición no cambie el código | Karol |
+| T-03.1 | Configurar el servicio de correo saliente | Katherine |
+| T-03.2 | Plantilla del correo con el código | Karol |
+| T-03.3 | Enviar el correo al guardar el registro | Katherine |
+| T-03.4 | Probar la entrega en cuentas reales | Karol |
+| T-04.1 | Pantalla de check-in | Karol |
+| T-04.2 | Validar el código y guardar fecha y hora | Katherine |
+| T-04.3 | Mensaje de confirmación con nombre y tipo de usuario | Karol |
+| T-04.4 | Pruebas de códigos válidos, inválidos y sin conexión | Karol y Katherine |
 
-## 3. Pruebas exigidas
-* **Pruebas Unitarias:**
-  * Validación de formatos (formato de cédula, estructura del correo electrónico, longitud de campos).
-  * Algoritmo de generación automática del código alfanumérico único para usuarios.
-* **Pruebas de Integración:**
-  * Comunicación completa entre Frontend, Backend y Base de Datos (operaciones de inserción, edición y consulta de usuarios).
-  * Integración con el servicio de despacho de correos electrónicos para el envío del código.
-  * Verificación del módulo de acceso validando códigos contra la base de datos y registrando el sello de tiempo (*timestamp*).
-* **Pruebas Manuales y Exploratorias:**
-  * Recorrido de extremo a extremo (*End-to-End*): Registro $\rightarrow$ envío de correo $\rightarrow$ marcación de entrada con fecha y hora.
-  * Pruebas de casos límite: Códigos no registrados, intentos de duplicación de cédula o accesos con datos vacíos.
+## Verificación de la DoD
 
----
+Antes de pasar un ítem a **Hecho** se revisa:
 
-## 4. Integración y despliegue
-* **Control de versiones y ramas:** Cada funcionalidad se trabaja en una rama de características (`feature/`) derivada de `develop` o `main`. Se integra a la rama principal mediante *Pull Request* revisado.
-* **Ambiente de pruebas:** Ninguna historia se da por concluida ni se expone en la *Sprint Review* si no ha sido desplegada y probada exitosamente en el ambiente de pruebas (*staging* / local compartido).
+* [ ] Pull Request revisado por la compañera.
+* [ ] Pruebas unitarias y de integración superadas.
+* [ ] Registros comprobados en la base de datos.
+* [ ] Probado en computadora y en vista móvil.
+* [ ] Criterios de aceptación revisados con el Product Owner.
 
----
+Si falla un punto, el ítem se queda en **En progreso** o **En pruebas** hasta corregirlo.
 
-## 5. Documentación mínima requerida
-* **Especificación técnica:** Esquema actualizado de la base de datos (tablas `Usuarios` y `Accesos`) y comentarios en métodos clave.
-* **Guía rápida de pruebas:** Casos de prueba descritos brevemente con pasos para reproducir y resultados esperados.
-* **Historial de cambios:** Registro formal en la tabla de control de versiones del Expediente del Proyecto.
+# 4. Matriz de Estimación
 
----
-
-## 6. Acuerdo del equipo y del Product Owner + Versión
-* **Equipo de Desarrollo:** Aceptado por Karol Miranda Mora y Katherine Solis Ramírez.
-* **Product Owner:** Aceptado por el Prof. Rudy Barboza Rodríguez.
-* **Versión:** 1.0 · **Fecha de aprobación:** 14/10/2026
-
----
-
-# Sprint Backlog 1
-
-## 1. Sprint Goal
-
-Construir y desplegar el núcleo de registro de usuarios y el control de acceso inicial mediante código único generado y notificado por correo, permitiendo identificar a los visitantes y registrar su ingreso a la Biblioteca Pública de Ciudad Quesada.
-
----
-
-## 2. Ítems seleccionados del Product Backlog
-
-1. **HU-01: Registro de usuarios con generación automática de código único.**
-   * *Descripción:* Como administrador, quiero registrar usuarios con sus datos (nombre completo, número, correo, cédula, edad, dirección y tipo de usuario) y generarles un código único de forma automática, para individualizarlos en el sistema.
-2. **HU-02: Edición de la información de usuarios.**
-   * *Descripción:* Como administrador, quiero editar los datos de los usuarios registrados, para mantener la base de datos depurada y actualizada.
-3. **HU-03: Notificación del código de usuario por correo electrónico.**
-   * *Descripción:* Como usuario registrado, quiero recibir por correo mi código único asignado, para utilizarlo como identificación y check-in al visitar la biblioteca.
-4. **HU-04: Control de acceso mediante código de usuario (Check-in).**
-   * *Descripción:* Como usuario/administrador, quiero ingresar el código único al llegar a la biblioteca, para registrar el ingreso y guardar la fecha y hora exacta de la visita.
-
-* **Fuera del Sprint 1 (planificados para siguientes sprints):**
-  * Módulo de catálogo, préstamo de libros y lista de espera de 24 horas.
-  * Módulo de préstamo de cubículos informáticos y control de tiempo por turno.
-  * Módulo de dashboard gerencial y reportes para auditoría (semanal, quincenal, mensual).
-
----
-
-## 3. Tareas por ítem, con responsable
-
-### Tareas Habilitadoras / Preparación Técnica
-* **TEC-01:** Crear y configurar el repositorio Git, estructura de ramas y políticas de PR. *(Karol Miranda y Katherine Solis)*
-* **TEC-02:** Configurar el ambiente de desarrollo, dependencias y ambiente de pruebas local. *(Karol Miranda y Katherine Solis)*
-* **TEC-03:** Diseñar el modelo relacional de la base de datos (tablas `Usuario`, `Acceso`, `TipoUsuario`). *(Katherine Solis)*
-* **TEC-04:** Configurar el diseño visual base del sistema y componentes reutilizables. *(Karol Miranda)*
-
-### HU-01: Registro de usuarios y generación automática de código
-* **T-01.1:** Maquetar la interfaz del formulario de registro de usuarios con campos obligatorios. *(Karol Miranda)*
-* **T-01.2:** Implementar validaciones de datos (cédula costarricense, formato de correo, edad, campos requeridos). *(Katherine Solis)*
-* **T-01.3:** Programar el algoritmo de generación automática del código alfanumérico único. *(Katherine Solis)*
-* **T-01.4:** Programar la inserción en base de datos y escribir pruebas unitarias de validación y unicidad. *(Katherine Solis)*
-
-### HU-02: Edición de usuarios
-* **T-02.1:** Diseñar la vista de listado/búsqueda de usuarios con modal o pantalla de edición. *(Karol Miranda)*
-* **T-02.2:** Implementar el servicio/endpoint de actualización de datos de usuarios en la base de datos. *(Katherine Solis)*
-* **T-02.3:** Probar que las actualizaciones no alteren el código único ni generen inconsistencias. *(Karol Miranda)*
-
-### HU-03: Notificación del código por correo
-* **T-03.1:** Configurar las credenciales y el servicio de envío de correos salientes (SMTP/servicio transaccional). *(Katherine Solis)*
-* **T-03.2:** Diseñar la plantilla de correo de bienvenida de la Biblioteca con el código de usuario destacado. *(Karol Miranda)*
-* **T-03.3:** Conectar el evento de guardado exitoso de registro con el despacho del correo. *(Katherine Solis)*
-* **T-03.4:** Realizar pruebas de entrega en cuentas de correo reales comprobando recepción y formato. *(Karol Miranda)*
-
-### HU-04: Control de acceso con código y hora de ingreso
-* **T-04.1:** Crear la pantalla de check-in con campo enfocado para digitar el código de usuario. *(Karol Miranda)*
-* **T-04.2:** Programar la verificación del código, búsqueda del usuario y registro de la hora y fecha exacta de acceso. *(Katherine Solis)*
-* **T-04.3:** Mostrar mensaje de confirmación en pantalla con el nombre y tipo de usuario tras el check-in. *(Karol Miranda)*
-* **T-04.4:** Elaborar pruebas manuales y de integración para códigos válidos, inválidos y casos sin conexión. *(Karol Miranda y Katherine Solis)*
-
----
-
-## 4. Cómo se verificará que cada ítem cumple la DoD
-Antes de marcar un ítem como completado y moverlo a la columna **Done**, el equipo aplicará la siguiente lista de verificación:
-* [ ] **Revisión cruzada:** El código fue sometido a *Pull Request* y revisado por la compañera de equipo.
-* [ ] **Pruebas superadas:** Las pruebas unitarias y de integración pasan satisfactoriamente sin advertencias.
-* [ ] **Persistencia verificada:** Los registros se comprueban directamente en la base de datos asegurando la integridad de la información.
-* [ ] **Ambiente de pruebas:** La funcionalidad se probó en el entorno de pruebas tanto en navegador de computadora como en vista móvil.
-* [ ] **Aprobación de criterios:** Se contrastó el funcionamiento contra los criterios de aceptación y se cuenta con el visto bueno del Product Owner.
-
-Si algún ítem falla en al menos un punto, permanece en estado **Doing** / **Testing** hasta ser corregido.
-
-# Matriz de Estimación
- 
 * **Escala:** Fibonacci (1, 2, 3, 5, 8, 13). Los puntos miden tamaño relativo, no horas.
 * **Historia de referencia (3 puntos):** HU-02 Edición de usuarios.
-* **Velocidad inicial:** 22 puntos por Sprint (rango supuesto: mínima 18, máxima 28), basada en la capacidad del equipo con trabajo en paralelo por módulos. Tras cada Sprint se reemplaza por la velocidad real y se revisa en la Retrospectiva.
+* **Velocidad inicial:** 22 puntos por Sprint (rango supuesto de 18 a 28). Después de cada Sprint se cambia por la velocidad real.
+
 | ID | Historia | Épica | Puntos | Prioridad | Dependencias |
-| :--- | :--- | :--- | :---: | :---: | :--- |
-| TEC-00 | Preparación técnica (TEC-01 a TEC-04: repositorio, ambiente, base de datos, diseño base) | Técnica | 3 | Alta | - |
+| :--- | :--- | :--- | :-: | :-: | :--- |
+| TEC-00 | Preparación técnica | Técnica | 3 | Alta | - |
 | HU-01 | Registro de usuarios con código único | Registro | 5 | Alta | TEC-00 |
 | HU-02 | Edición de usuarios (**referencia**) | Registro | 3 | Alta | HU-01 |
 | HU-03 | Código de usuario por correo | Registro | 5 | Alta | HU-01 |
-| HU-04 | Control de acceso mediante código (check-in) | Acceso | 3 | Alta | HU-01 |
+| HU-04 | Control de acceso (check-in) | Acceso | 3 | Alta | HU-01 |
 | HU-05 | Catálogo de libros | Libros | 5 | Media | TEC-00 |
 | HU-06 | Préstamo y devolución de libros | Libros | 5 | Alta | HU-01, HU-05 |
 | HU-07 | Lista de espera de 24 horas | Libros | 8 | Media | HU-06 |
@@ -215,336 +158,179 @@ Si algún ítem falla en al menos un punto, permanece en estado **Doing** / **Te
 | HU-11 | Reportes semanal, quincenal y mensual | Dashboard | 5 | Media | HU-10 |
 | TEC-05 | Despliegue final | Técnica | 3 | Alta | Todas |
 | | **Total** | | **63** | | |
- 
-**Por épica:** Registro 13 · Acceso 3 · Libros 18 · Cubículos 10 · Dashboard 13 · Técnica 6.
- 
-**Historias para dividir:** ninguna pasa de 8. Si HU-07 o HU-10 generan desacuerdo en el planning poker, se dividen.
- 
-**Supuestos y riesgos:**
-1. No hay historial de velocidad; todo se estima por comparación con HU-02.
-2. Somos dos personas: una ausencia reduce mucho la capacidad.
-3. El correo saliente (HU-03) es la mayor incertidumbre.
-4. Las reglas de las 24 horas y de los turnos se validan con el cliente.
----
 
-## Matriz de Riesgos (Registro de Riesgos)
- 
-| ID | Descripción (si ocurre X, entonces Y) | Categoría | Tipo | P | I | Puntaje | Prioridad | Dueño |
-| :-- | :-- | :-- | :-- | :-: | :-: | :-: | :-- | :-- |
-| R-01 | Si una de las dos integrantes se ausenta o se satura con otros cursos, entonces la capacidad del equipo baja a la mitad y el módulo que solo ella conoce se detiene. | Equipo | Amenaza | 3 | 3 | 9 | **Alta prioridad** | Karol |
-| R-02 | Si el correo saliente no llega o cae en spam, entonces el usuario no recibe su código (HU-03) y no puede hacer el check-in. | Tercero | Amenaza | 3 | 2 | 6 | **Alta prioridad** | Katherine |
-| R-03 | Si el bibliotecario cambia o no confirma las reglas de la lista de espera de 24 horas y los turnos de cubículos, entonces HU-07 y HU-09 se rehacen. | Alcance | Amenaza | 3 | 2 | 6 | **Alta prioridad** | Karol |
-| R-04 | Si el Sprint 2 (28 puntos, la velocidad máxima supuesta) no se completa, entonces el Dashboard se atrasa y se consume la reserva del Sprint 4. | Alcance | Amenaza | 3 | 2 | 6 | **Alta prioridad** | Katherine |
-| R-05 | Si soporte técnico no tiene listo el ambiente o no responde a tiempo, entonces el despliegue final (TEC-05) se atrasa. | Tercero | Amenaza | 2 | 3 | 6 | **Alta prioridad** | Katherine |
-| R-06 | Si los datos personales (cédula, edad, dirección) se exponen o se guardan sin protección, entonces hay un problema legal y se pierde la confianza de los usuarios. | Negocio | Amenaza | 1 | 3 | 3 | Vigilar | Katherine |
-| R-07 | Si el personal de apoyo sigue usando el libro de papel o los usuarios olvidan su código, entonces los datos del sistema quedan incompletos y los reportes pierden valor. | Negocio | Amenaza | 2 | 2 | 4 | Vigilar | Karol |
-| R-08 | Si la biblioteca tiene internet inestable, entonces el check-in y los préstamos fallan en el momento de atención. | Técnico | Amenaza | 2 | 2 | 4 | Vigilar | Karol |
-| R-09 | Si los reportes se presentan a la administración municipal a tiempo, entonces puede apoyar el presupuesto y el horario de la biblioteca. | Negocio | **Oportunidad** | 2 | 2 | 4 | Vigilar | Karol |
-| R-10 | Si un cambio en el modelo de datos (por ejemplo, para préstamos) rompe lo ya hecho en usuarios y acceso, entonces se pierde tiempo corrigiendo. | Técnico | Amenaza | 1 | 2 | 2 | Aceptar | Katherine |
- 
----
- 
-## 3. Mapa de calor
- 
+**Por épica:** Registro 13 · Acceso 3 · Libros 18 · Cubículos 10 · Dashboard 13 · Técnica 6. Ninguna historia pasa de 8; si HU-07 o HU-10 generan desacuerdo en el planning poker, se dividen.
+
+**Supuestos:** no hay historial de velocidad; somos dos personas, así que una ausencia pesa mucho; el correo saliente es la mayor incertidumbre; las reglas de 24 horas y de turnos se validan con el bibliotecario.
+
+# 5. Riesgos y adquisiciones
+
+## Registro de riesgos
+
+| ID | Si ocurre…, entonces… | Tipo | P | I | Puntaje | Prioridad | Dueño |
+| :-- | :-- | :-- | :-: | :-: | :-: | :-- | :-- |
+| R-01 | Si una integrante se ausenta o se satura, la capacidad baja a la mitad y su módulo se detiene. | Amenaza | 3 | 3 | 9 | **Alta** | Karol |
+| R-02 | Si el correo no llega o cae en spam, el usuario no recibe su código. | Amenaza | 3 | 2 | 6 | **Alta** | Katherine |
+| R-03 | Si el bibliotecario no confirma las reglas de 24 horas y turnos, HU-07 y HU-09 se rehacen. | Amenaza | 3 | 2 | 6 | **Alta** | Karol |
+| R-04 | Si el Sprint 2 (28 puntos) no se completa, el Dashboard se atrasa. | Amenaza | 3 | 2 | 6 | **Alta** | Katherine |
+| R-05 | Si soporte técnico no tiene listo el ambiente, el despliegue final se atrasa. | Amenaza | 2 | 3 | 6 | **Alta** | Katherine |
+| R-06 | Si los datos personales se exponen, hay un problema legal y se pierde la confianza. | Amenaza | 1 | 3 | 3 | Vigilar | Katherine |
+| R-07 | Si el personal sigue usando papel o los usuarios olvidan su código, los datos quedan incompletos. | Amenaza | 2 | 2 | 4 | Vigilar | Karol |
+| R-08 | Si el internet de la biblioteca es inestable, el check-in y los préstamos fallan. | Amenaza | 2 | 2 | 4 | Vigilar | Karol |
+| R-09 | Si los reportes llegan a tiempo a la municipalidad, puede apoyar el presupuesto y el horario. | **Oportunidad** | 2 | 2 | 4 | Vigilar | Karol |
+| R-10 | Si un cambio en el modelo de datos rompe usuarios y acceso, se pierde tiempo corrigiendo. | Amenaza | 1 | 2 | 2 | Aceptar | Katherine |
+
+## Mapa de calor
+
 | | Impacto bajo (1) | Impacto medio (2) | Impacto alto (3) |
-| :-- | :--: | :--: | :--: |
-| **Prob. alta (3)** | Vigilar<br>— | **Alta prioridad**<br>R-02 · R-03 · R-04 | **Alta prioridad**<br>R-01 |
-| **Prob. media (2)** | Aceptar<br>— | Vigilar<br>R-07 · R-08 · R-09 (oportunidad) | **Alta prioridad**<br>R-05 |
-| **Prob. baja (1)** | Aceptar<br>— | Aceptar<br>R-10 | Vigilar<br>R-06 |
- 
-# Plan de Mitigación
- 
-## Riesgos de alta prioridad (zona roja)
- 
-### R-01 · Ausencia o saturación de una integrante (dueño: Karol)
- 
-* **Estrategia:** mitigar.
-* **Acciones:** traspaso de 30 min de cada módulo a la otra integrante (MIT-01 libros, MIT-02 cubículos) y 20 % de holgura al planificar.
-* **Disparador:** no responde en 24 h hábiles, o una historia pasa más de 3 días en "En progreso" sin avance.
-* **Contingencia / respaldo:** la otra toma solo historias de prioridad Alta; si la ausencia pasa de una semana, se reduce el alcance con el Product Owner.
-* **Revisión y riesgo residual:** Planning Sprint 3 (16/11) · medio.
-### R-02 · Falla del correo saliente (dueña: Katherine)
- 
-* **Estrategia:** mitigar.
-* **Acciones:** prueba corta de 1 día con 3 cuentas reales (MIT-03) e interfaz propia `EnvioCorreo` para cambiar de proveedor (MIT-04).
-* **Disparador:** el correo no llega o cae en spam en 2 de 3 cuentas, o se alcanza el límite de envíos.
-* **Contingencia / respaldo:** usar el correo de la municipalidad; si no, imprimir el código en un comprobante.
-* **Revisión y riesgo residual:** al terminar la prueba · bajo.
-### R-03 · Reglas de 24 horas y turnos sin validar (dueño: Karol)
- 
-* **Estrategia:** mitigar.
-* **Acciones:** confirmar las reglas por escrito con el bibliotecario y anotarlas en los criterios de aceptación de HU-07 y HU-09 (MIT-05).
-* **Disparador:** el bibliotecario no confirma antes de iniciar la historia o pide cambios en la demo.
-* **Contingencia / respaldo:** construir primero una versión mínima con valores configurables; si no, pasar la historia al Sprint 4.
-* **Revisión y riesgo residual:** antes del Planning del Sprint 3 · bajo.
-### R-04 · Sprint 2 sobrecargado (dueña: Katherine)
- 
-* **Estrategia:** evitar.
-* **Acciones:** planificar con 22 puntos, no 28, y mover HU-07 o HU-09 al Sprint 3 (MIT-06).
-* **Disparador:** a mitad de Sprint los puntos pendientes reales superan los ideales del burndown.
-* **Contingencia / respaldo:** usar el Sprint 4 de reserva; si no alcanza, recortar el alcance de reportes.
-* **Revisión y riesgo residual:** cada corte del burndown · medio.
-### R-05 · Soporte técnico no listo para el despliegue (dueña: Katherine)
- 
-* **Estrategia:** mitigar.
-* **Acciones:** enviar requisitos y fecha por correo y pedir un despliegue de prueba antes del cierre (MIT-07).
-* **Disparador:** sin respuesta en 3 días hábiles, o sin acceso al servidor al iniciar el Sprint 3.
-* **Contingencia / respaldo:** escalar con el Product Owner; si no hay servidor, instalar en una computadora de la biblioteca.
-* **Revisión y riesgo residual:** inicio del Sprint 3 y 30/11 · medio.
----
- 
-## Riesgos a vigilar (zona amarilla)
- 
-### R-06 · Datos personales expuestos (dueña: Katherine)
- 
-* **Estrategia:** mitigar.
-* **Acciones:** pedir solo los datos necesarios, mostrar la cédula parcialmente, acceso por rol y conexión segura (MIT-08). Confirmar con el Product Owner si aplica la Ley 8968.
-* **Disparador:** un usuario reclama por sus datos o se ve información sensible sin permiso.
-* **Contingencia / respaldo:** quitar el acceso afectado de inmediato y avisar al Product Owner.
-* **Revisión y riesgo residual:** Retrospectiva (22/11) · bajo.
-### R-07 · El personal o los usuarios no adoptan el sistema (dueño: Karol)
- 
-* **Estrategia:** mitigar.
-* **Acciones:** capacitación breve al personal de apoyo y aviso impreso para usuarios sobre su código (MIT-09).
-* **Disparador:** más de 3 visitas al día sin registro en el sistema.
-* **Contingencia / respaldo:** buscar al usuario por cédula si olvidó su código (consultar con el Product Owner); si no, anotar en papel y digitar después.
-* **Revisión y riesgo residual:** final de Sprints 2 y 3 · medio.
-### R-08 · Internet inestable en la biblioteca (dueño: Karol)
- 
-* **Estrategia:** mitigar.
-* **Acciones:** probar el check-in y los préstamos en la red real de la biblioteca (MIT-10).
-* **Disparador:** el check-in tarda más de unos segundos o se cae durante una prueba.
-* **Contingencia / respaldo:** anotar temporalmente en papel y digitar cuando vuelva la conexión.
-* **Revisión y riesgo residual:** demo de cada Sprint · medio.
-### R-09 · Oportunidad: apoyo de la administración municipal (dueño: Karol)
- 
-* **Estrategia:** mejorar (aumentar su probabilidad).
-* **Acciones:** enviar a la administración un resumen de una página al cierre del Sprint 2 y al despliegue, como indica el Plan de Comunicaciones (MIT-11).
-* **Disparador:** la administración pide datos de uso o de presupuesto.
-* **Contingencia / respaldo:** presentar los datos disponibles del Dashboard aunque estén incompletos.
-* **Revisión y riesgo residual:** cierre del Sprint 2 · no aplica.
----
- 
-## Riesgo a aceptar (zona verde)
- 
-### R-10 · Cambio de esquema rompe lo ya hecho (dueña: Katherine)
- 
-* **Estrategia:** aceptar con vigilancia.
-* **Acciones:** sin ítem nuevo; la DoD ya exige no regresión y pruebas de integración, y todo cambio al esquema pasa por Pull Request revisado.
-* **Disparador:** una prueba previa falla después de un cambio de esquema.
-* **Contingencia / respaldo:** revertir el cambio y corregirlo en una rama aparte.
-* **Revisión y riesgo residual:** cada Pull Request · bajo.
----
- 
-## Acciones para el Sprint Backlog
- 
-| ID | Acción | Riesgo | Responsable |
-| :-- | :-- | :-- | :-- |
-| MIT-01 | Traspaso del módulo de libros | R-01 | Katherine |
-| MIT-02 | Traspaso del módulo de cubículos | R-01 | Karol |
-| MIT-03 | Prueba corta del correo saliente (1 día) | R-02 | Katherine |
-| MIT-04 | Interfaz `EnvioCorreo` | R-02 | Katherine |
-| MIT-05 | Validación escrita de reglas de 24 h y turnos | R-03 | Karol |
-| MIT-06 | Replanificar Sprint 2 | R-04 | Katherine |
-| MIT-07 | Correo a soporte técnico y despliegue de prueba | R-05 | Katherine |
-| MIT-08 | Protección de datos personales | R-06 | Katherine |
-| MIT-09 | Capacitación al personal y aviso a usuarios | R-07 | Karol |
-| MIT-10 | Prueba en la red de la biblioteca | R-08 | Karol |
-| MIT-11 | Resumen de una página para la administración | R-09 | Karol |
- 
----
- 
+| :-- | :-: | :-: | :-: |
+| **Prob. alta (3)** | — | **Alta:** R-02 · R-03 · R-04 | **Alta:** R-01 |
+| **Prob. media (2)** | — | Vigilar: R-07 · R-08 · R-09 | **Alta:** R-05 |
+| **Prob. baja (1)** | — | Aceptar: R-10 | Vigilar: R-06 |
+
+## Plan de mitigación
+
+| Riesgo | Estrategia | Acción | Disparador | Contingencia |
+| :-- | :-- | :-- | :-- | :-- |
+| R-01 | Mitigar | MIT-01 y MIT-02: traspaso de 30 min de cada módulo; 20 % de holgura | Sin respuesta en 24 h o tarjeta 3 días sin avance | La otra toma solo historias de prioridad Alta |
+| R-02 | Mitigar | MIT-03: prueba con 3 cuentas reales; MIT-04: interfaz `EnvioCorreo` | Falla en 2 de 3 cuentas | Correo municipal o código impreso |
+| R-03 | Mitigar | MIT-05: confirmar las reglas por escrito con el bibliotecario | No hay confirmación antes de iniciar | Versión mínima con valores configurables |
+| R-04 | Evitar | MIT-06: revisar el alcance del Sprint 2 con la velocidad real | Puntos reales por encima del ideal | Usar el Sprint 4 de reserva |
+| R-05 | Mitigar | MIT-07: enviar requisitos y fecha a soporte técnico | Sin respuesta en 3 días hábiles | Instalar en una computadora de la biblioteca |
+| R-06 | Mitigar | MIT-08: pedir solo lo necesario, cédula parcial, acceso por rol | Reclamo de un usuario | Quitar el acceso y avisar al Product Owner |
+| R-07 | Mitigar | MIT-09: capacitación breve y aviso impreso | Más de 3 visitas al día sin registro | Buscar al usuario por cédula |
+| R-08 | Mitigar | MIT-10: probar en la red real de la biblioteca | El check-in se cae en una prueba | Anotar en papel y digitar después |
+| R-09 | Mejorar | MIT-11: resumen de una página para la municipalidad | La municipalidad pide datos | Presentar los datos disponibles |
+| R-10 | Aceptar | La DoD ya exige no regresión y Pull Request revisado | Una prueba previa falla | Revertir el cambio |
+
 ## Adquisiciones críticas
- 
-* **Correo saliente (HU-03):** proveedor por definir con MIT-03 (plan gratuito) o servidor municipal · términos de uso, sin contrato de precio fijo ni de tiempo y materiales · salida: cambiar de proveedor desde `EnvioCorreo`.
-* **Ambiente de despliegue (TEC-05):** soporte técnico de la municipalidad · sin costo, acuerdo por correo · salida: instalación local en la biblioteca.
-* **GitHub y Trello:** plan gratuito · términos de uso · salida: clonar el repositorio y exportar el tablero cada Sprint.
 
- ---
+* **Correo saliente:** plan gratuito o servidor municipal; si falla, se cambia de proveedor con `EnvioCorreo`.
+* **Ambiente de despliegue:** soporte técnico de la municipalidad, sin costo; alternativa: instalación local.
+* **GitHub, Trello y MongoDB Atlas:** planes gratuitos; se respalda el repositorio y se exporta el tablero cada Sprint.
 
-# Cronograma de Entregas (Release Plan)
- 
-* **Duración del Sprint:** 1 semana (el Sprint 1 cierra el 08/11 con dos Incrementos). **Inicio del Sprint 1:** 12/10/2026. **Cierre del proyecto:** 04/12/2026 *(ajustar)*.
-* **Sprints necesarios:** 63 ÷ 22 = 2,9 → **3 Sprints** esperados. Con velocidad máxima (28): 63 ÷ 28 = 2,3 → 3. Con la mínima (18): 63 ÷ 18 = 3,5 → 4. **Rango: 3 a 4 Sprints.**
+# 6. Cronograma de Entregas
+
+* **Duración del Sprint:** 1 semana (el Sprint 1 va del 12/10 al 08/11 con dos incrementos).
+* **Cierre del proyecto:** 04/12/2026.
+* **Sprints necesarios:** 63 ÷ 22 = 2,9 → **3 Sprints**. Con la velocidad mínima (18) serían 4. **Rango: 3 a 4 Sprints.**
+
 | Sprint | Fechas | Incremento | Historias | Puntos |
-| :---: | :--- | :--- | :--- | :---: |
-| 1 | 12/10 – 08/11 | Módulo de usuarios: registro, edición, código por correo y control de acceso (Incrementos 1.1 y 1.2) | TEC-00, HU-01 a HU-04 | 19 |
-| 2 | 09/11 – 15/11 | Módulos completos de préstamo de libros y de cubículos | HU-05 a HU-09 | 28 |
+| :-: | :--- | :--- | :--- | :-: |
+| 1 | 12/10 – 08/11 | Usuarios, código por correo y control de acceso | TEC-00, HU-01 a HU-04 | 19 |
+| 2 | 09/11 – 15/11 | Préstamo de libros y de cubículos | HU-05 a HU-09 | 28 |
 | 3 | 16/11 – 22/11 | Dashboard, reportes y despliegue | HU-10, HU-11, TEC-05 | 16 |
-| 4 (reserva) | 23/11 – 29/11 | Solo si el Sprint 2 no se completa o la velocidad es la mínima | Pendientes | - |
- 
-* **Incrementos del Sprint 1:**
-  1. **Incremento 1.1 (18/10/2026):** backend del módulo de usuarios (registro, edición y control de acceso), con guía para el frontend.
-  2. **Incremento 1.2 (08/11/2026, estimado):** frontend del módulo de usuarios (registro, edición y check-in), correo con el código (HU-03) y pruebas. Aquí se cumple el DoD completo.
-* **Orden de trabajo del Sprint 2** (por dependencias, en paralelo):
-  1. **Incremento 2.1, préstamo de libros (Katherine):** HU-05 catálogo (hasta 11/11) → HU-06 préstamo y devolución (hasta 13/11) → HU-07 lista de espera de 24 horas (hasta 15/11).
-  2. **Incremento 2.2, préstamo de cubículos (Karol):** HU-08 préstamo (hasta 12/11) → HU-09 control de tiempo por turno (hasta 15/11).
-* **Margen:** el release esperado termina el 22/11 y el peor caso el 29/11, con la semana del 30/11 al 04/12 libre para la documentación final y la entrega.
-* **Hitos:** demo con el Product Owner al final de cada Sprint; aviso a soporte técnico al iniciar el Sprint 2; despliegue al final del Sprint 3.
-* **Costo:** 30 horas-persona por Sprint *(2 personas × 15 h, ajustar)*. Release esperado: 90 horas; rango: 90 a 120 horas.
+| 4 (reserva) | 23/11 – 29/11 | Solo si algo queda pendiente | Pendientes | - |
 
-* **Seguimiento (burndown del release):**
+* **Incrementos del Sprint 1:** 1.1 (18/10): backend de usuarios con guía para el frontend · 1.2 (08/11): frontend, correo y pruebas. Con el 1.2 se cumple la DoD completa.
+* **Margen:** la semana del 30/11 al 04/12 queda libre para la documentación final y la entrega.
+* **Costo:** 30 horas-persona por Sprint (2 personas × 15 h). Release esperado: 90 horas (rango: 90 a 120).
+
+**Seguimiento (burndown del release):**
+
 | Corte | Inicio | S1 | S2 | S3 |
-| :--- | :---: | :---: | :---: | :---: |
+| :--- | :-: | :-: | :-: | :-: |
 | Pendientes (ideal) | 63 | 44 | 16 | 0 |
 | Pendientes (real) | 63 | | | |
 
-# Plan de Comunicaciones
- 
-| Interesado | Poder | Interés | Qué necesita | Frecuencia / evento | Canal | Responsable |
-| :--- | :---: | :---: | :--- | :--- | :--- | :--- |
-| Prof. Rudy Barboza (docente y Product Owner) | Alto | Alto | Avance, decisiones de alcance, impedimentos | Cada Sprint (Revisión) y en clase | Clase y correo institucional | Katherine |
-| Bibliotecario/a (cliente del caso) | Alto | Alto | Demo de flujos y validación de reglas | Final de cada Sprint | Demo y correo | Karol |
-| Administración municipal | Alto | Bajo | Resumen de una página del avance | Cierre de Sprint 2 y despliegue | Correo | Karol |
-| Soporte técnico | Alto | Bajo | Requisitos de despliegue y correo saliente | Inicio del Sprint 2 y ante cambios | Correo | Katherine |
-| Personal de apoyo | Bajo | Alto | Cómo usar check-in y préstamos | Final de Sprints 2 y 3 | Presencial | Karol |
-| Usuarios de la biblioteca | Bajo | Alto | Su código y cómo usarlo | Al registrarse y al activar el ingreso | Correo automático y aviso impreso | Katherine |
- 
-**Comunicación interna:** planificación al inicio del Sprint (30 min), reunión diaria de máximo 15 minutos por mensajería, Revisión con el Product Owner al final, Retrospectiva solo del equipo y Pull Requests en GitHub.
- 
-**Reglas del equipo:**
-1. Respuesta en máximo 24 horas hábiles; si es urgente, se llama.
-2. Las decisiones se anotan en el tablero o en el Expediente, no solo en el chat.
-3. Los cambios de alcance se consultan primero con el Product Owner.
-4. Los bloqueos se avisan el mismo día.
----
- 
-# Tablero de Trabajo
- 
-**Reparto del trabajo por módulo:**
- 
+# 7. Plan de Comunicaciones
+
+| Interesado | Poder | Interés | Qué necesita | Cuándo | Canal | Responsable |
+| :--- | :-: | :-: | :--- | :--- | :--- | :--- |
+| Prof. Rudy Barboza (Product Owner) | Alto | Alto | Avance, alcance e impedimentos | Cada Sprint y en clase | Clase y correo | Katherine |
+| Bibliotecario/a | Alto | Alto | Demo y validación de reglas | Final de cada Sprint | Demo y correo | Karol |
+| Administración municipal | Alto | Bajo | Resumen de una página | Cierre del Sprint 2 y despliegue | Correo | Karol |
+| Soporte técnico | Alto | Bajo | Requisitos de despliegue y correo | Inicio del Sprint 2 | Correo | Katherine |
+| Personal de apoyo | Bajo | Alto | Uso del check-in y préstamos | Final de Sprints 2 y 3 | Presencial | Karol |
+| Usuarios | Bajo | Alto | Su código y cómo usarlo | Al registrarse | Correo y aviso impreso | Katherine |
+
+**Comunicación interna:** planificación de 30 min al inicio del Sprint, Daily de máximo 15 min por mensajería, Review con el Product Owner, Retrospectiva del equipo y Pull Requests en GitHub.
+
+**Reglas del equipo:** respuesta en máximo 24 horas hábiles (si es urgente, se llama); las decisiones se anotan en el tablero o el Expediente; los cambios de alcance pasan primero por el Product Owner; los bloqueos se avisan el mismo día.
+
+# 8. Tablero de Trabajo
+
+**Herramienta:** Trello · [Tablero de trabajo](https://trello.com/b/6aebddcac8243401d84573a9)
+
 | Módulo | Historias | Responsable |
 | :--- | :--- | :--- |
-| Usuarios y acceso (registro, edición, correo, check-in) | HU-01 a HU-04 | Backend: Katherine · Frontend: Karol |
-| Préstamo de libros | HU-05, HU-06, HU-07 | Katherine (completo) |
-| Préstamo de cubículos | HU-08, HU-09 | Karol (completo) |
-| Dashboard y reportes | HU-10, HU-11 | Ambas, mitad y mitad |
- 
-Cada Pull Request lo revisa la otra integrante.
- 
-* **Herramienta:** Trello. **Enlace:** [Tablero de trabajo](https://trello.com/b/6aebddcac8243401d84573a9)
+| Usuarios y acceso | HU-01 a HU-04 | Backend: Katherine · Frontend: Karol |
+| Préstamo de libros | HU-05 a HU-07 | Katherine |
+| Préstamo de cubículos | HU-08, HU-09 | Karol |
+| Dashboard y reportes | HU-10, HU-11 | Ambas |
+
 | Columna | Significado | WIP máx. |
-| :--- | :--- | :---: |
-| Por hacer | Historias del Sprint Backlog 1 en orden de prioridad | - |
+| :--- | :--- | :-: |
+| Por hacer | Sprint Backlog en orden de prioridad | - |
 | En progreso | Se está programando o diseñando | 2 |
 | En revisión | Pull Request esperando a la compañera | 2 |
-| En pruebas | Pruebas en el ambiente de pruebas (computadora y móvil) | 2 |
-| Hecho | Cumple el DoD | - |
- 
-**Justificación del WIP:** una historia por integrante en progreso, para terminar más y empezar menos.
- 
-**Regla para pasar a "Hecho"** (DoD 1.0): Pull Request aprobado por la compañera, pruebas superadas, persistencia verificada en la base de datos, funciona en computadora y móvil, y visto bueno del Product Owner.
- 
-| ID | Historia | Puntos | Responsable | Columna |
-| :--- | :--- | :---: | :--- | :--- |
-| TEC-00 | Preparación técnica | 3 | Karol y Katherine | Hecho |
-| HU-01 | Registro con código único | 5 | Backend: Katherine · Frontend: Karol | En progreso |
-| HU-02 | Edición de usuarios | 3 | Backend: Katherine · Frontend: Karol | En revisión |
-| HU-03 | Código por correo | 5 | Backend: Katherine · Plantilla: Karol | En progreso |
-| HU-04 | Control de acceso (check-in) | 3 | Backend: Katherine · Frontend: Karol | En progreso |
+| En pruebas | Pruebas en computadora y móvil | 2 |
+| Hecho | Cumple la DoD | - |
 
+**WIP:** una historia por integrante en progreso, para terminar más y empezar menos. Cada Pull Request lo revisa la otra integrante.
 
-# Acta de Sprint Review y Cierre
+**Estado del tablero durante el Sprint:**
 
-## 1. Fecha, duración y asistentes
+| ID | Historia | Puntos | Columna |
+| :--- | :--- | :-: | :--- |
+| TEC-00 | Preparación técnica | 3 | Hecho |
+| HU-01 | Registro con código único | 5 | En progreso |
+| HU-02 | Edición de usuarios | 3 | En revisión |
+| HU-03 | Código por correo | 5 | En progreso |
+| HU-04 | Control de acceso | 3 | En progreso |
 
-- **Fecha:** 08/11/2026
-- **Duración:** 1 hora (máximo permitido para este Sprint: 4 horas)
-- **Product Owner:** Prof. Rudy Barboza Rodríguez
-- **Scrum Master:** Karol Miranda Mora
-- **Developers:** Karol Miranda Mora (frontend) y Katherine Solis Ramírez (backend)
-- **Interesados clave presentes:** representante de la biblioteca (bibliotecario), rol simulado en esta sesión.
+# 9. Acta de Sprint Review
 
-## 2. Sprint Goal y si se cumplió
+* **Fecha:** 08/11/2026 · **Duración:** 1 hora.
+* **Product Owner:** Prof. Rudy Barboza Rodríguez · **Scrum Master:** Karol Miranda Mora.
+* **Developers:** Karol Miranda Mora (frontend) y Katherine Solis Ramírez (backend).
+* **Interesado presente:** representante de la biblioteca (rol simulado).
 
-- **Sprint Goal:** construir y desplegar el núcleo de registro de usuarios y el control de acceso inicial mediante código único generado y enviado por correo, para identificar a los visitantes y registrar su ingreso a la biblioteca.
-- **Resultado:** **cumplido.** Las cuatro historias del Sprint funcionan de principio a fin en el ambiente de pruebas.
-- **Entregas del Sprint:**
-  1. **Incremento 1.1 (18/10/2026):** backend del módulo de usuarios (registro, edición y control de acceso), con guía para el frontend.
-  2. **Incremento 1.2 (08/11/2026):** frontend del módulo, correo con el código y pruebas. Con este incremento se cumple la Definition of Done (DoD) completa.
+**Sprint Goal:** cumplido. Las cuatro historias funcionan de principio a fin en el ambiente de pruebas.
 
-## 3. Historias mostradas y cuáles cumplen la DoD
+| Historia | Puntos | Qué se mostró | DoD |
+| :--- | :-: | :--- | :-: |
+| TEC-00 Preparación técnica | 3 | Repositorio, ambiente, base de datos y diseño base | Cumple |
+| HU-01 Registro | 5 | Se registró un usuario y se generó su código | Cumple |
+| HU-02 Edición | 3 | Se editó un usuario y el código no cambió | Cumple |
+| HU-03 Correo | 5 | El correo llegó a una cuenta real | Cumple |
+| HU-04 Check-in | 3 | Código válido guarda fecha y hora; código no registrado muestra aviso | Cumple |
 
-Se mostró el producto funcionando en el ambiente de pruebas, tanto en computadora como en vista móvil. No se presentó código.
+**Puntos terminados:** 19 de 19.
 
-- **TEC-00, Preparación técnica (3 puntos):** repositorio, ambiente, base de datos y diseño base. **Cumple la DoD.**
-- **HU-01, Registro de usuarios con código único (5 puntos):** se registró un usuario de ejemplo y el sistema generó su código automáticamente. **Cumple la DoD.**
-- **HU-02, Edición de usuarios (3 puntos):** se editaron datos de un usuario y el código único se mantuvo igual. **Cumple la DoD.**
-- **HU-03, Código de usuario por correo (5 puntos):** el correo con el código llegó a una cuenta real. **Cumple la DoD.**
-- **HU-04, Control de acceso con código (3 puntos):** se digitó un código válido y el sistema mostró el nombre y tipo de usuario, y guardó fecha y hora. También se probó un código no registrado y el sistema mostró un aviso. **Cumple la DoD.**
+**Retroalimentación:** el Product Owner aceptó el incremento. La representante de la biblioteca pidió buscar usuarios por cédula y poner el nombre de la biblioteca en el asunto del correo. Confirmó que lo siguiente más importante son los préstamos.
 
-**Puntos terminados:** 19 de 19 planificados.
+**Cambios al Product Backlog:** búsqueda por cédula (ajuste a HU-02) y asunto del correo (ajuste a HU-03), ambos para el Sprint 2. Las prioridades se mantienen.
 
-## 4. Retroalimentación recibida de los interesados
+**Estado del release:** 19 de 63 puntos (30 %). Quedan 44, igual que lo ideal. El cierre se mantiene el 04/12/2026.
 
-Retroalimentación de la sesión simulada:
+# 10. Acta de Sprint Retrospective
 
-1. El Product Owner aceptó las cuatro historias y el Incremento del Sprint.
-2. El representante de la biblioteca pidió poder buscar a un usuario por número de cédula, además del nombre, porque es el dato que más rápido se tiene a mano en el mostrador.
-3. Pidió que el asunto del correo diga claramente el nombre de la Biblioteca Pública de Ciudad Quesada, para que no se confunda con correo no deseado.
-4. Confirmó que el siguiente paso más importante es el préstamo de libros y cubículos.
+**Formato:** Start / Stop / Continue · 45 minutos · se habla del proceso, no de personas.
 
-## 5. Cambios al Product Backlog acordados
+**Continue**
 
-- **Nuevo ajuste a HU-02:** agregar búsqueda de usuarios por cédula. Se estima en el Sprint Planning del Sprint 2.
-- **Ajuste a HU-03:** cambiar el asunto de la plantilla del correo para incluir el nombre de la biblioteca (cambio pequeño, entra al Sprint 2).
-- **Prioridades:** se mantienen. Siguen primero los módulos de libros (HU-05 a HU-07) y cubículos (HU-08 y HU-09).
+* Entregar el backend temprano con una guía para el frontend. *Evidencia:* el Incremento 1.1 salió el 18/10 y Karol avanzó con las pantallas sin esperar.
+* Dividir el trabajo en tareas con responsable. *Evidencia:* cada tarea tenía dueña y se terminaron los 19 puntos.
 
-## 6. Estado del release: avance frente al Cronograma de Entregas
+**Stop**
 
-- **Avance:** 19 de 63 puntos terminados (30 %). Quedan 44 puntos, igual a lo previsto en el seguimiento ideal del Sprint 1.
-- **Próximo Sprint (Sprint 2):** libros y cubículos completos (HU-05 a HU-09, 28 puntos).
-- **Cierre del proyecto:** sin cambios en la fecha (04/12/2026).
-- **Hito siguiente:** avisar a soporte técnico al iniciar el Sprint 2 y hacer la demo con el Product Owner al cierre.
+* Planificar con una velocidad supuesta. *Evidencia:* se estimaron 22 puntos y se terminaron 19.
+* Contar un incremento parcial como entregable. *Evidencia:* el 1.1 (solo backend) no cumplía la DoD por sí solo.
 
----
+**Start**
 
-## Parte 2. Acta de Sprint Retrospective
+* Aprobar la DoD antes de empezar el Sprint. *Evidencia:* el Sprint inició el 12/10 y la DoD se aprobó el 14/10.
+* Probar el correo desde el inicio del Sprint en que se use. *Evidencia:* era la mayor incertidumbre técnica.
 
-### 1. Formato usado
+**Seguimiento de acciones anteriores:** no aplica, es el primer Sprint.
 
-**Start / Stop / Continue** (qué empezar, qué dejar y qué seguir haciendo). Participó el equipo Scrum: Product Owner, Scrum Master y Developers. Duración: 45 minutos (máximo permitido: 3 horas). Regla de la sesión: se habla del proceso, no de personas.
+## Acciones de mejora
 
-### 2. Qué funcionó bien y qué no, con evidencia
+| ID | Acción | Dueño | Fecha | Cómo se verifica |
+| :-- | :-- | :-- | :-: | :-- |
+| A-01 | Recalcular la velocidad con los 19 puntos reales y revisar que el Sprint 2 quepa | Karol | 13/11 | El Cronograma muestra la velocidad real y el burndown del Sprint 1 |
+| A-02 | Entregar historias completas (backend, pantalla y pruebas), no por capas | Karol y Katherine | 15/11 | En el Acta del Sprint 2 cada historia dice si cumple la DoD |
+| A-03 | Confirmar la DoD y los criterios con el Product Owner antes de iniciar | Karol | Planning del Sprint 2 | El Sprint Backlog indica la versión de la DoD y la fecha de confirmación |
 
-**Continue (seguir haciendo):**
-
-- **Entregar el backend temprano con una guía para el frontend.** Evidencia: el Incremento 1.1 se entregó el 18/10 y Karol pudo avanzar con las pantallas sin esperar al final.
-- **Dividir el trabajo en tareas con responsable.** Evidencia: el Sprint Backlog 1 asignó cada tarea a una persona y las 19 puntos se terminaron.
-
-**Stop (dejar de hacer):**
-
-- **Planear los Sprints con una velocidad supuesta, sin datos reales.** Evidencia: la velocidad inicial se estimó en 22 puntos por Sprint, y el Sprint 1 cerró con 19 puntos terminados.
-- **Considerar un incremento parcial como entregable.** Evidencia: el Incremento 1.1 (solo backend) no cumplía la DoD por sí solo, porque no había pantallas, correo ni pruebas completas.
-
-**Start (empezar a hacer):**
-
-- **Aprobar la DoD y los criterios de aceptación antes de empezar cada Sprint.** Evidencia: el Sprint inició el 12/10 y la DoD se aprobó el 14/10.
-- **Probar el envío de correos desde el inicio del Sprint en que se usen.** Evidencia: el correo saliente (HU-03) estaba señalado desde la Matriz de Estimación como la mayor incertidumbre técnica.
-
-### 3. Seguimiento de las acciones del Sprint anterior
-
-No aplica: es el primer Sprint del proyecto.
-
-### 4. Acciones de mejora (máximo 3, con dueño y fecha)
-
-1. **Ajustar el alcance del Sprint 2 con la velocidad real.**
-   - **Acción:** recalcular la velocidad con los 19 puntos del Sprint 1 y revisar que las historias del Sprint 2 quepan en esa capacidad.
-   - **Dueño:** Karol Miranda (Scrum Master).
-   - **Fecha:** 13/11/2026.
-   - **Cómo se verifica:** el Cronograma de Entregas muestra la velocidad real y la fila "real" del seguimiento (burndown) del Sprint 1 completa, con su commit.
-2. **Entregar historias completas, no por capas.**
-   - **Acción:** una historia solo se muestra en la Review y se cuenta como terminada si funciona de principio a fin (backend, pantalla y pruebas), según la DoD.
-   - **Dueño:** Katherine Solis y Karol Miranda (Developers), cada una en el módulo que le toca.
-   - **Fecha:** desde el Sprint 2 (cierre el 15/11/2026).
-   - **Cómo se verifica:** en el Acta del Sprint 2, cada historia mostrada aparece con "cumple / no cumple la DoD".
-3. **Aprobar la DoD y los criterios de aceptación antes de iniciar el Sprint.**
-   - **Acción:** en cada Sprint Planning se confirma con el Product Owner la versión vigente de la DoD y los criterios de aceptación de cada historia, antes de empezar a trabajar.
-   - **Dueño:** Karol Miranda (Scrum Master), con la confirmación del Product Owner.
-   - **Fecha:** Sprint Planning del Sprint 2 y de los siguientes.
-   - **Cómo se verifica:** el Sprint Backlog de cada Sprint indica la versión de la DoD y la fecha de confirmación, anterior al inicio del Sprint.
-
-### 5. Acciones incorporadas al Sprint Backlog siguiente
-
-Las tres acciones entran al Sprint Backlog 2 como tareas con responsable y fecha. Se revisan en la Retrospective del Sprint 2.
-
+Las tres acciones entran al Sprint Backlog 2.
