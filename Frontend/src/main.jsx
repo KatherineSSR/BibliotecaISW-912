@@ -9,7 +9,7 @@ import BooksPage, { loadBooks } from './pages/books.jsx';
 import LoansPage, { loadLoans } from './pages/loans.jsx';
 import ComputerLabPage, { loadComputerLab } from './pages/computer-lab.jsx';
 import AccessPage from './pages/access.jsx';
-import ReportsPage from './pages/reports.jsx';
+import ReportsPage, { loadReports } from './pages/reports.jsx';
 
 const navigation = [
   ['dashboard', 'Resumen', 'dashboard'],
@@ -36,7 +36,8 @@ const pageLoaders = {
   users: loadUsers,
   books: loadBooks,
   loans: loadLoans,
-  'computer-lab': loadComputerLab
+  'computer-lab': loadComputerLab,
+  reports: loadReports
 };
 
 function Login({ onLogin, error, onClearError }) {

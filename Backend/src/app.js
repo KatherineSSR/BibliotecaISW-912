@@ -21,6 +21,7 @@ app.use('/api/cubicles', require('./routes/cubicleRoutes'));
 app.use('/api/computer-lab', require('./routes/computerLabRoutes'));
 app.use('/api/books', require('./routes/bookRoutes'));
 app.use('/api/loans', require('./routes/loanRoutes'));
+app.use('/api/reports', require('./routes/reportRoutes'));
 
 
 module.exports = app;
