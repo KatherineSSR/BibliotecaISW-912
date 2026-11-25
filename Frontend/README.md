@@ -1,5 +1,7 @@
 # Frontend - Biblioteca Ciudad Quesada
 
+Guía para el personal: [`GUIA_USUARIO.md`](../GUIA_USUARIO.md).
+
 ## Requisitos
 
 - Node.js y npm
