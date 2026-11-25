@@ -431,6 +431,7 @@ td { padding: 14px 18px; border-top: 1px solid #f0ece5; color: #4f5c60; font-siz
 }
 .access-icon { background: #e0f2fe; color: #0369a1; }
 .loan-icon   { background: #fef3c7; color: #d97706; }
+.cubicle-icon { background: #e6f4ef; color: #26705d; }
 
 .report-section-title {
   font-size: 1.0625rem;
@@ -520,6 +521,7 @@ td { padding: 14px 18px; border-top: 1px solid #f0ece5; color: #4f5c60; font-siz
 }
 .bar-access { background: #0ea5e9; }
 .bar-loans  { background: #f59e0b; }
+.bar-cubicles { background: #26705d; }
 
 .report-bar-label {
   font-size: 0.6875rem;

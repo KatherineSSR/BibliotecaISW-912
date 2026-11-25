@@ -289,3 +289,98 @@ Con esto se atiende el problema inicial: la información deja de estar en libros
 ## Lecciones aprendidas
 
 El proyecto cerró con los 63 puntos en tres Sprints. Lo que más ayudó fue trabajar los módulos en paralelo y revisar el código entre las dos. Lo que más costó fue confirmar la DoD a tiempo, y eso se logró corregir en este último Sprint. Las mejoras futuras se manejarán en un backlog de mantenimiento con el mismo flujo de control de cambios.
+
+# Acta de Sprint Review y cierre del proyecto
+
+## 1 Fecha, duración y asistentes
+
+* **Fecha:** 22/11/2026 · **Duración:** 1 hora.
+* **Product Owner:** Prof. Rudy Barboza Rodríguez.
+* **Scrum Master:** Karol Miranda Mora.
+* **Developers:** Karol Miranda Mora (cubículos y vista del dashboard) y Katherine Solis Ramírez (libros, consultas y reportes).
+
+## 2 Sprint Goal y resultado
+
+* **Sprint Goal:** entregar el sistema completo con un dashboard que reúna los indicadores principales, reportes semanales, quincenales y mensuales en PDF, y el despliegue final.
+* **Resultado:** **cumplido.** Las tres historias del Sprint funcionan de principio a fin en el ambiente final.
+
+## 3 Historias mostradas y cumplimiento de la DoD
+
+Se mostró el sistema funcionando, en computadora y en vista móvil. No se presentó código.
+
+| Historia | Puntos | Qué se mostró | DoD 3.0 |
+| :--- | :-: | :--- | :-: |
+| HU-10 Dashboard gerencial | 8 | Totales de usuarios, accesos, préstamos y uso de cubículos, con filtro por período. Los valores coincidieron con la base de datos y, sin registros, se muestra un mensaje claro. | Cumple |
+| HU-11 Reportes en PDF | 5 | Se generaron y descargaron los reportes semanal, quincenal y mensual. Cada PDF abrió bien y muestra el período y la fecha de generación. | Cumple |
+| TEC-05 Despliegue final | 3 | Sistema desplegado y verificado siguiendo la guía. Se entregaron la guía de uso y la documentación de configuración. | Cumple |
+
+**Puntos terminados:** 16 de 16.
+
+## 4 Retroalimentación y decisión del Product Owner
+
+* El Product Owner **aceptó** el incremento del Sprint 3 y la entrega final del sistema.
+* No se recibieron solicitudes nuevas en la revisión.
+* Las solicitudes que quedaron diferidas en el Registro de Solicitudes de Cambio pasan a un **backlog de mantenimiento** y seguirán el mismo flujo de control de cambios.
+
+## 5 Estado final del release
+
+| Corte | Inicio | S1 | S2 | S3 |
+| :--- | :-: | :-: | :-: | :-: |
+| Pendientes (ideal) | 63 | 44 | 16 | 0 |
+| Pendientes (real) | 63 | 44 | 16 | 0 |
+
+* **Avance:** 63 de 63 puntos terminados (100 %).
+* **Velocidad:** 19 (Sprint 1), 28 (Sprint 2) y 16 (Sprint 3).
+* **Cronograma:** se planearon de 3 a 4 Sprints y se terminó en 3. No se usó el Sprint 4 de reserva.
+* **Costo:** con 3 Sprints, el esfuerzo quedó en el valor esperado de 90 horas-persona (rango planificado: 90 a 120).
+
+## 6 Cierre del proyecto
+
+### Producto entregado
+
+| Módulo | Sprint | Qué resuelve |
+| :--- | :-: | :--- |
+| Usuarios y código por correo | 1 | Cada visitante queda registrado con un código único. |
+| Control de acceso | 1 | El ingreso se guarda con fecha y hora, sin libro de papel. |
+| Libros y lista de espera | 2 | Se controla el inventario y los libros agotados se asignan por orden de llegada. |
+| Cubículos y turnos | 2 | Se sabe qué puestos están ocupados y cuánto tiempo se usan. |
+| Dashboard y reportes PDF | 3 | La biblioteca tiene datos para auditorías y para justificar presupuesto y horario. |
+
+Con esto se atiende el problema inicial: la información deja de estar en libros de papel y se pueden sacar reportes por período.
+
+### Entregables finales
+
+* Sistema desplegado (frontend, backend y base de datos en MongoDB Atlas).
+* Guía de uso del sistema y de descarga de reportes.
+* Documentación de configuración, despliegue, respaldo y recuperación.
+* Expediente del Proyecto actualizado con los tres Sprints.
+* Repositorio en GitHub: *(agregar enlace)*.
+
+### Estado final de los riesgos
+
+| ID | Riesgo | Estado al cierre |
+| :-- | :-- | :-- |
+| R-01 | Ausencia de una integrante | Cerrado. Los traspasos de módulos se hicieron el 17/11. |
+| R-02 | Falla del correo | Cerrado. El correo funcionó desde el Sprint 1. |
+| R-03 | Reglas de 24 h y turnos sin confirmar | Cerrado. HU-07 y HU-09 se aceptaron sin rehacerse. |
+| R-04 | Sprint 2 sobrecargado | Cerrado. Se completaron los 28 puntos. |
+| R-05 | Ambiente de despliegue no listo | Cerrado. El despliegue se verificó en este Sprint. |
+| R-06 | Exposición de datos personales | Pasa a mantenimiento. Las vistas y descargas piden autenticación. |
+| R-07 | Poca adopción del sistema | Pasa a la biblioteca. Se entregó la guía de uso. |
+| R-08 | Internet inestable | Pasa a mantenimiento. Se mantiene el respaldo en papel como contingencia. |
+| R-09 | Oportunidad: apoyo municipal | Aprovechable. Los reportes en PDF ya se pueden presentar a la municipalidad. |
+| R-10 | Un cambio rompe lo ya hecho | Cerrado. Se verificó la no regresión en cada Sprint. |
+
+### Pendientes
+
+* No quedan defectos bloqueantes.
+* Las mejoras futuras y las solicitudes diferidas se manejan en el backlog de mantenimiento.
+
+## 7 Aceptación
+
+| Nombre | Rol | Decisión | Fecha | Firma |
+| :--- | :--- | :--- | :-: | :--- |
+| Prof. Rudy Barboza Rodríguez | Product Owner | Aprobado | 22/11/2026 | |
+| Karol Miranda Mora | Scrum Master y Developer | Conforme | 22/11/2026 | |
+| Katherine Solis Ramírez | Developer | Conforme | 22/11/2026 | |
+

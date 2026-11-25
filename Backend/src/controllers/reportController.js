@@ -1,5 +1,6 @@
 const Access = require('../models/Access');
 const Loan = require('../models/Loan');
+const CubicleSession = require('../models/CubicleSession');
 
 /**
  * Calcula la fecha de inicio según el período solicitado
@@ -185,4 +186,76 @@ const getLoansReport = async (req, res) => {
     }
 };
 
-module.exports = { getAccessReport, getLoansReport };
+/**
+ * GET /api/reports/cubicles?period=weekly|biweekly|monthly
+ * Reporte 3: Uso de cubículos por período
+ */
+const getCubiclesReport = async (req, res) => {
+    try {
+        const period = req.query.period || 'weekly';
+        const startDate = getStartDate(period);
+        const endDate = new Date();
+
+        const sessions = await CubicleSession.find({
+            startedAt: { $gte: startDate, $lte: endDate }
+        }).sort({ startedAt: 1 });
+
+        const countByDay = {};
+        const countByCubicle = {};
+        let active = 0;
+        let finished = 0;
+        let expired = 0;
+        let totalMinutes = 0;
+
+        for (const session of sessions) {
+            if (session.status === 'active') active++;
+            else if (session.status === 'finished') finished++;
+            else if (session.status === 'expired') expired++;
+
+            totalMinutes += session.durationMinutes || 0;
+
+            const key = toDateKey(session.startedAt);
+            countByDay[key] = (countByDay[key] || 0) + 1;
+
+            const cubicleNumber = session.cubicleNumber;
+            countByCubicle[cubicleNumber] = (countByCubicle[cubicleNumber] || 0) + 1;
+        }
+
+        const dailyBreakdown = buildDateRange(startDate).map(date => ({
+            date,
+            count: countByDay[date] || 0
+        }));
+
+        const cubicleBreakdown = Object.entries(countByCubicle)
+            .map(([cubicleNumber, count]) => ({
+                cubicleNumber: Number(cubicleNumber),
+                count
+            }))
+            .sort((a, b) => a.cubicleNumber - b.cubicleNumber);
+
+        return res.status(200).json({
+            success: true,
+            period,
+            periodLabel: getPeriodLabel(period),
+            startDate: startDate.toISOString(),
+            endDate: endDate.toISOString(),
+            generatedAt: new Date().toISOString(),
+            totalSessions: sessions.length,
+            active,
+            finished,
+            expired,
+            totalMinutes,
+            dailyBreakdown,
+            cubicleBreakdown
+        });
+    } catch (error) {
+        console.error('Error al generar reporte de cubículos:', error);
+        return res.status(500).json({
+            success: false,
+            message: 'Error al generar el reporte de cubículos.',
+            error: error.message
+        });
+    }
+};
+
+module.exports = { getAccessReport, getLoansReport, getCubiclesReport };

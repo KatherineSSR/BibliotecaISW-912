@@ -6,12 +6,14 @@ import { Icon } from '../components.jsx';
 
 export async function loadReports() {
   const period = state.reportPeriod || 'weekly';
-  const [accessData, loansData] = await Promise.all([
+  const [accessData, loansData, cubiclesData] = await Promise.all([
     request(`/api/reports/access?period=${period}`),
-    request(`/api/reports/loans?period=${period}`)
+    request(`/api/reports/loans?period=${period}`),
+    request(`/api/reports/cubicles?period=${period}`)
   ]);
   state.reportAccess = accessData;
   state.reportLoans  = loansData;
+  state.reportCubicles = cubiclesData;
   state.reportPeriod = period;
 }
 
@@ -219,11 +221,103 @@ function ReportePrestamos({ data }) {
   );
 }
 
+// ─── Reporte de Cubículos ────────────────────────────────────────────────────
+
+function ReporteCubiculos({ data }) {
+  if (!data) return null;
+  return (
+    <section className="report-section" id="report-cubicles">
+      <div className="report-section-header">
+        <div className="report-section-icon cubicle-icon">
+          <Icon name="cubicle" />
+        </div>
+        <div>
+          <h3 className="report-section-title">Reporte de Uso de Cubículos</h3>
+          <p className="report-section-sub">Turnos registrados · {data.periodLabel}</p>
+        </div>
+      </div>
+
+      <div className="report-kpi-row">
+        <div className="report-kpi primary">
+          <span className="report-kpi-value">{data.totalSessions}</span>
+          <span className="report-kpi-label">Total de turnos</span>
+        </div>
+        <div className="report-kpi success">
+          <span className="report-kpi-value">{data.finished}</span>
+          <span className="report-kpi-label">Finalizados</span>
+        </div>
+        <div className="report-kpi warning">
+          <span className="report-kpi-value">{data.active}</span>
+          <span className="report-kpi-label">Activos</span>
+        </div>
+        <div className="report-kpi neutral">
+          <span className="report-kpi-value">{Math.round(data.totalMinutes / 60 * 10) / 10}</span>
+          <span className="report-kpi-label">Horas reservadas</span>
+        </div>
+      </div>
+
+      <h4 className="report-chart-title">Turnos por día</h4>
+      <MiniBarChart data={data.dailyBreakdown} colorClass="bar-cubicles" />
+
+      <div className="report-table-wrap">
+        <table className="data-table">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th className="text-right">Turnos</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.dailyBreakdown.map(({ date, count }) => (
+              <tr key={date}>
+                <td>{formatDateShort(date)}</td>
+                <td className="text-right">{count}</td>
+              </tr>
+            ))}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td><strong>Total</strong></td>
+              <td className="text-right"><strong>{data.totalSessions}</strong></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      {data.cubicleBreakdown && data.cubicleBreakdown.length > 0 && (
+        <>
+          <h4 className="report-chart-title" style={{ marginTop: '1.5rem' }}>
+            Uso por cubículo
+          </h4>
+          <div className="report-table-wrap">
+            <table className="data-table">
+              <thead>
+                <tr>
+                  <th>Cubículo</th>
+                  <th className="text-right">Turnos</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.cubicleBreakdown.map(({ cubicleNumber, count }) => (
+                  <tr key={cubicleNumber}>
+                    <td>Cubículo {cubicleNumber}</td>
+                    <td className="text-right">{count}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </>
+      )}
+    </section>
+  );
+}
+
 // ─── Pie de página del reporte (para impresión) ───────────────────────────────
 
-function ReportFooter({ accessData, loansData, period }) {
+function ReportFooter({ accessData, loansData, cubiclesData, period }) {
   const label = PERIODS.find(p => p.value === period)?.label || '';
-  const generatedAt = accessData?.generatedAt || loansData?.generatedAt;
+  const generatedAt = accessData?.generatedAt || loansData?.generatedAt || cubiclesData?.generatedAt;
   return (
     <div className="report-print-footer print-only">
       <hr />
@@ -247,25 +341,24 @@ export default function ReportsPage() {
   const [period, setPeriod]   = useState(state.reportPeriod || 'weekly');
   const [loading, setLoading] = useState(false);
   const [error, setError]     = useState('');
-  const [notice, setNotice]   = useState('');
   // rev fuerza re-render al llegar datos nuevos
   const [rev, setRev]         = useState(0);
 
   async function fetchReports(newPeriod) {
     setLoading(true);
     setError('');
-    setNotice('');
     try {
-      const [accessRes, loansRes] = await Promise.all([
+      const [accessRes, loansRes, cubiclesRes] = await Promise.all([
         request(`/api/reports/access?period=${newPeriod}`),
-        request(`/api/reports/loans?period=${newPeriod}`)
+        request(`/api/reports/loans?period=${newPeriod}`),
+        request(`/api/reports/cubicles?period=${newPeriod}`)
       ]);
       state.reportAccess = accessRes;
       state.reportLoans  = loansRes;
+      state.reportCubicles = cubiclesRes;
       state.reportPeriod = newPeriod;
       setPeriod(newPeriod);
       setRev(r => r + 1);
-      setNotice('Reporte actualizado correctamente.');
     } catch (err) {
       setError(err.message || 'Error al cargar el reporte.');
     } finally {
@@ -276,7 +369,7 @@ export default function ReportsPage() {
   // Si el loader de main.jsx ya llenó state, solo refrescamos rev.
   // Si no hay datos, disparamos la carga inicial.
   React.useEffect(() => {
-    if (state.reportAccess || state.reportLoans) {
+    if (state.reportAccess || state.reportLoans || state.reportCubicles) {
       setRev(r => r + 1); // datos ya listos
     } else {
       fetchReports(state.reportPeriod || 'weekly');
@@ -286,6 +379,7 @@ export default function ReportsPage() {
 
   const accessData = state.reportAccess;
   const loansData  = state.reportLoans;
+  const cubiclesData = state.reportCubicles;
 
   function handlePrint() {
     window.print();
@@ -295,12 +389,12 @@ export default function ReportsPage() {
     <div className="page-container" id="reports-page">
 
       {/* Encabezado de impresión — solo visible al imprimir */}
-      {(accessData || loansData) && (
+      {(accessData || loansData || cubiclesData) && (
         <div className="report-print-header print-only">
           <h1>Biblioteca Pública de Ciudad Quesada</h1>
-          <p>Reporte de Accesos y Préstamos de Libros</p>
+          <p>Reporte de Accesos, Préstamos de Libros y Uso de Cubículos</p>
           <p><strong>Período:</strong> {formatDate(accessData?.startDate)} al {formatDate(accessData?.endDate)}</p>
-          <p><strong>Generado el:</strong> {formatDateTime(accessData?.generatedAt || loansData?.generatedAt)}</p>
+          <p><strong>Generado el:</strong> {formatDateTime(accessData?.generatedAt || loansData?.generatedAt || cubiclesData?.generatedAt)}</p>
           <hr />
         </div>
       )}
@@ -311,7 +405,7 @@ export default function ReportsPage() {
           <h2 className="page-title">
             <Icon name="report" /> Reportes del sistema
           </h2>
-          <p className="page-subtitle">Estadísticas de accesos y préstamos por período</p>
+          <p className="page-subtitle">Estadísticas de accesos, préstamos y cubículos por período</p>
         </div>
         <button className="button button-primary" onClick={handlePrint} type="button">
           <Icon name="download" /> Imprimir / Guardar PDF
@@ -326,18 +420,6 @@ export default function ReportsPage() {
           <button
             className="alert-dismiss"
             onClick={() => setError('')}
-            type="button"
-            aria-label="Cerrar"
-          >×</button>
-        </div>
-      )}
-      {notice && (
-        <div className="alert alert-success no-print" role="alert">
-          <Icon name="check" />
-          <span>{notice}</span>
-          <button
-            className="alert-dismiss"
-            onClick={() => setNotice('')}
             type="button"
             aria-label="Cerrar"
           >×</button>
@@ -368,7 +450,7 @@ export default function ReportsPage() {
       )}
 
       {/* Sin datos */}
-      {!loading && !accessData && !loansData && !error && (
+      {!loading && !accessData && !loansData && !cubiclesData && !error && (
         <div className="empty-state no-print">
           <p>No hay datos disponibles para el período seleccionado.</p>
         </div>
@@ -379,12 +461,18 @@ export default function ReportsPage() {
         <div className="reports-grid">
           <ReporteAccesos data={accessData} />
           <ReportePrestamos data={loansData} />
+          <ReporteCubiculos data={cubiclesData} />
         </div>
       )}
 
       {/* Pie de página para impresión */}
-      {!loading && (accessData || loansData) && (
-        <ReportFooter accessData={accessData} loansData={loansData} period={period} />
+      {!loading && (accessData || loansData || cubiclesData) && (
+        <ReportFooter
+          accessData={accessData}
+          loansData={loansData}
+          cubiclesData={cubiclesData}
+          period={period}
+        />
       )}
     </div>
   );
